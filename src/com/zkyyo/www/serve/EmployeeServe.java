@@ -28,17 +28,17 @@ public class EmployeeServe {
                     break;
                 case 1:
                     System.out.println("请输入员工号");
-                    int searchNumber = ScannerUtil.scanNum();
-                    EmployeePo foundEp = QueryUtil.queryEmployeeByNumber(searchNumber);
+                    int searchedUserId = ScannerUtil.scanNum();
+                    EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(searchedUserId);
 
                     if (foundEp == null) {
                         System.out.println("查无此人");
                          EmployeeView.employeeManage(handler);
                     } else {
                         System.out.println("信息如下");//
-                        System.out.println("员工号 = " + foundEp.geteNumber());
+                        System.out.println("员工号 = " + foundEp.geteUserId());
                         System.out.println("姓名 = " + foundEp.geteName());
-                        System.out.println("部门号 = " + foundEp.geteDepartmentId());
+                        System.out.println("部门号 = " + foundEp.geteDeptId());
                         System.out.println("电话 = " + foundEp.geteMobile());
                         System.out.println("薪水 = " + foundEp.geteSalary());
                         System.out.println("邮箱 = " + foundEp.geteEmail());
@@ -48,16 +48,16 @@ public class EmployeeServe {
                     break;
                 case 2:
                     System.out.println("请输入员工名");
-                    String searchName = ScannerUtil.scanString();
-                    EmployeePo foundEp2 = QueryUtil.queryEmployeeByName(searchName);
+                    String searchedUserName = ScannerUtil.scanString();
+                    EmployeePo foundEp2 = QueryUtil.queryEmployeeByUserName(searchedUserName);
                     if (foundEp2 == null) {
                         System.out.println("查无此人");
                         EmployeeView.employeeManage(handler);
                     } else {
                         System.out.println("该员工信息如下");
-                        System.out.println("员工号 = " + foundEp2.geteNumber());
+                        System.out.println("员工号 = " + foundEp2.geteUserId());
                         System.out.println("姓名 = " + foundEp2.geteName());
-                        System.out.println("部门号 = " + foundEp2.geteDepartmentId());
+                        System.out.println("部门号 = " + foundEp2.geteDeptId());
                         System.out.println("电话 = " + foundEp2.geteMobile());
                         System.out.println("薪水 = " + foundEp2.geteSalary());
                         System.out.println("邮箱 = " + foundEp2.geteEmail());
@@ -71,9 +71,9 @@ public class EmployeeServe {
                     eps = EmployeeDao.queryAllEmployees();
                     System.out.println("所有员工信息如下");//
                     for (EmployeePo ep : eps) {
-                        System.out.println("员工号 = " + ep.geteNumber());
+                        System.out.println("员工号 = " + ep.geteUserId());
                         System.out.println("姓名 = " + ep.geteName());
-                        System.out.println("部门号 = " + ep.geteDepartmentId());
+                        System.out.println("部门号 = " + ep.geteDeptId());
                         System.out.println("电话 = " + ep.geteMobile());
                         System.out.println("薪水 = " + ep.geteSalary());
                         System.out.println("邮箱 = " + ep.geteEmail());
@@ -92,17 +92,17 @@ public class EmployeeServe {
         boolean isUpdate = false;
 
         System.out.println("请输入需要需改的员工号");
-        int number = ScannerUtil.scanNum();
+        int updateUserId = ScannerUtil.scanNum();
 
-        EmployeePo foundEp = QueryUtil.queryEmployeeByNumber(number);
+        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(updateUserId);
         if (foundEp == null) {
             System.out.println("查无此人");
             EmployeeView.employeeManage(handler);
         } else {
             System.out.println("信息如下");//
-            System.out.println("员工号 = " + foundEp.geteNumber());
+            System.out.println("员工号 = " + foundEp.geteUserId());
             System.out.println("姓名 = " + foundEp.geteName());
-            System.out.println("部门号 = " + foundEp.geteDepartmentId());
+            System.out.println("部门号 = " + foundEp.geteDeptId());
             System.out.println("电话 = " + foundEp.geteMobile());
             System.out.println("薪水 = " + foundEp.geteSalary());
             System.out.println("邮箱 = " + foundEp.geteEmail());
@@ -126,33 +126,33 @@ public class EmployeeServe {
                     switch (choice) {
                         case 1:
                             int newDepartmentId = ScannerUtil.scanNum();
-                            foundEp.seteDepartmentId(newDepartmentId);
-                            isUpdate = EmployeeDao.updateEmployee(number, 1, foundEp);
+                            foundEp.seteDeptId(newDepartmentId);
+                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 1, foundEp);
                             break;
                         case 2:
                             String newMobile = ScannerUtil.scanString();
                             foundEp.seteMobile(newMobile);
-                            isUpdate = EmployeeDao.updateEmployee(number, 2, foundEp);
+                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 2, foundEp);
                             break;
                         case 3:
                             double newSalary = ScannerUtil.scanSalary();
                             foundEp.seteSalary(newSalary);
-                            isUpdate = EmployeeDao.updateEmployee(number, 3, foundEp);
+                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 3, foundEp);
                             break;
                         case 4:
                             String newEmail = ScannerUtil.scanEmail();
                             foundEp.seteEmail(newEmail);
-                            isUpdate = EmployeeDao.updateEmployee(number, 4, foundEp);
+                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 4, foundEp);
                             break;
                         case 5:
                             java.sql.Date newEmployDate = ScannerUtil.scanSqlDate();
                             foundEp.seteEmployDate(newEmployDate);
-                            isUpdate = EmployeeDao.updateEmployee(number, 5, foundEp);
+                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 5, foundEp);
                             break;
                         case 6:
                             String newPwd = ScannerUtil.scanPwd();
                             foundEp.setePassword(newPwd);
-                            isUpdate = EmployeeDao.updateEmployee(number, 6, foundEp);
+                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 6, foundEp);
                             break;
                         default:
                             System.out.println("bad number");
@@ -178,8 +178,8 @@ public class EmployeeServe {
         System.out.println("请输入待添加员工的信息(带*为必选):");
 
         System.out.println("*员工号: ");
-        int number = ScannerUtil.scanNum();
-        newEp.seteNumber(number);
+        int userId = ScannerUtil.scanNum();
+        newEp.seteUserId(userId);
 
         //密码可能含有空格
         System.out.println("*密码: ");
@@ -192,7 +192,7 @@ public class EmployeeServe {
 
         System.out.println("*部门号: ");
         int departmentId = ScannerUtil.scanNum();
-        newEp.seteDepartmentId(departmentId);
+        newEp.seteDeptId(departmentId);
 
         System.out.println("*薪水: ");
         double salary = ScannerUtil.scanSalary();
@@ -206,7 +206,7 @@ public class EmployeeServe {
         String email = ScannerUtil.scanEmail();
         newEp.seteEmail(email);
 
-        System.out.println("*就职时间: ");
+        System.out.println("*就职时间(格式为xxxx-xx-xx): ");
         java.sql.Date sqlDate = ScannerUtil.scanSqlDate();
         newEp.seteEmployDate(sqlDate);
 
@@ -227,18 +227,18 @@ public class EmployeeServe {
      */
     public static void deleteEmployee(EmployeePo handler) {
         System.out.println("请输入待删除员工的员工号:");
-        int deletedNumber = ScannerUtil.scanNum();
+        int deletedUserId = ScannerUtil.scanNum();
 
-        EmployeePo foundEp = QueryUtil.queryEmployeeByNumber(deletedNumber);
+        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(deletedUserId);
         if (foundEp == null) {
             System.out.println("查无此人");
             EmployeeView.employeeManage(handler);
         }
         else {
             System.out.println("待删除员工信息如下");
-            System.out.println("员工号 = " + foundEp.geteNumber());
+            System.out.println("员工号 = " + foundEp.geteUserId());
             System.out.println("姓名 = " + foundEp.geteName());
-            System.out.println("部门号 = " + foundEp.geteDepartmentId());
+            System.out.println("部门号 = " + foundEp.geteDeptId());
             System.out.println("电话 = " + foundEp.geteMobile());
             System.out.println("薪水 = " + foundEp.geteSalary());
             System.out.println("邮箱 = " + foundEp.geteEmail());
@@ -250,7 +250,7 @@ public class EmployeeServe {
                 String firstLetter = choice.substring(0, 1);
 
                 if (firstLetter.equalsIgnoreCase("y")) {
-                    boolean isDeleted = EmployeeDao.deleteEmployee(deletedNumber);
+                    boolean isDeleted = EmployeeDao.deleteEmployee(deletedUserId);
                     if (isDeleted) {
                         System.out.println("你已成功删除该员工");
                         EmployeeView.employeeManage(handler);

@@ -3,21 +3,21 @@ package com.zkyyo.www.po;
 import java.sql.Date;
 
 public class EmployeePo {
-    private int eNumber;
+    private int eUserId;
     private String ePassword;
     private String eName;
-    private int eDepartmentId;
+    private int eDeptId;
     private String eMobile;
     private double eSalary;
     private String eEmail;
     private Date eEmployDate;
 
-    public EmployeePo(int eNumber, String ePassword, String eName, int eDepartmentId,
+    public EmployeePo(int eUserId, String ePassword, String eName, int eDeptId,
                       String eMobile, double eSalary, String eEmail, Date eEmployDate) {
-        this.eNumber = eNumber;
+        this.eUserId = eUserId;
         this.ePassword = ePassword;
         this.eName = eName;
-        this.eDepartmentId = eDepartmentId;
+        this.eDeptId = eDeptId;
         this.eMobile = eMobile;
         this.eSalary = eSalary;
         this.eEmail = eEmail;
@@ -31,11 +31,11 @@ public class EmployeePo {
 
     }
 
-    public int geteNumber() {
-        return eNumber;
+    public int geteUserId() {
+        return eUserId;
     }
-    public void seteNumber(int eNumber) {
-        this.eNumber = eNumber;
+    public void seteUserId(int eUserId) {
+        this.eUserId = eUserId;
     }
     public String geteName() {
         return eName;
@@ -49,11 +49,11 @@ public class EmployeePo {
     public void setePassword(String ePassword) {
         this.ePassword = ePassword;
     }
-    public int geteDepartmentId() {
-        return eDepartmentId;
+    public int geteDeptId() {
+        return eDeptId;
     }
-    public void seteDepartmentId(int eDepartmentId) {
-        this.eDepartmentId = eDepartmentId;
+    public void seteDeptId(int eDeptId) {
+        this.eDeptId = eDeptId;
     }
     public String geteMobile() {
         return eMobile;
@@ -81,10 +81,10 @@ public class EmployeePo {
     @Override
     public String toString() {
         return "EmployeePo{" +
-                "eNumber=" + eNumber +
+                "eUserId=" + eUserId +
                 ", ePassword='" + ePassword + '\'' +
                 ", eName='" + eName + '\'' +
-                ", eDepartmentId=" + eDepartmentId +
+                ", eDeptId=" + eDeptId +
                 ", eMobile='" + eMobile + '\'' +
                 ", eSalary=" + eSalary +
                 ", eEmail='" + eEmail + '\'' +

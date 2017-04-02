@@ -16,21 +16,21 @@ public class MainView {
         System.out.println("1. 登录");
         System.out.println("2. 退出");
         System.out.println("***********************************");
-        System.out.print("请选择: ");
+        System.out.println("请选择: ");
 
         do {
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 1:
                     System.out.println("请输入员工号: ");
-                    int enterNumber = ScannerUtil.scanNum();
+                    int enterUserId = ScannerUtil.scanNum();
                     System.out.println("请输入密码:  ");
                     String enterPassword = ScannerUtil.scanPwd();
 
-                    EmployeePo ep = EmployeeDao.loginCheck(enterNumber);
+                    EmployeePo ep = EmployeeDao.loginCheck(enterUserId);
                     if (ep == null) {
                         System.out.println("查无此员工号");
-                        System.exit(-1);
+                        mainView();
                     } else {
                         if (enterPassword.equals(ep.getePassword()))
                             functionsChoice(ep);
@@ -66,6 +66,9 @@ public class MainView {
                     break;
                 case 1:
                     EmployeeView.employeeManage(handler);
+                    break;
+                case 2:
+                    DepartmentView.departmentManage(handler);
                 default:
                     System.out.println("bad number");
             }
