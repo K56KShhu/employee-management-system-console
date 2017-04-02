@@ -58,7 +58,7 @@ public class EmployeePo {
     public void seteMobile(String eMobile) {
         this.eMobile = eMobile;
     }
-    public double geteSalary() { return eSalary; };
+    public double geteSalary() { return eSalary; }
     public void seteSalary(double eSalary) {
         this.eSalary = eSalary;
     }

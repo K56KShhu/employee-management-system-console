@@ -130,8 +130,7 @@ public class ScannerUtil {
                         if (day > daysInMonth)
                             System.out.println("非法日数,请重新输入:");
                         else {
-                            Date sqlDate = Date.valueOf(enterStr);
-                            return sqlDate;
+                            return Date.valueOf(enterStr);
                         }
                     }
                 }
