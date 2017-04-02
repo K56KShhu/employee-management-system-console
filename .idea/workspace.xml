@@ -59,19 +59,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QueryUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/util/QueryUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-              <folding>
-                <marker date="1490889936701" expanded="true" signature="506:545" ph="SELECT * FRO... employee" />
-                <marker date="1490889936701" expanded="true" signature="1653:1690" ph="SELECT * FRO... employee" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DepartmentView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/view/DepartmentView.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -104,12 +91,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScannerUtil.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ScannerUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/util/ScannerUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="0">
+              <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,11 +113,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmployeeDao.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ConnDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/ConnDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EmployeeDao.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/EmployeeDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4925">
-              <caret line="200" column="25" lean-forward="false" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
+            <state relative-caret-position="394">
+              <caret line="181" column="40" lean-forward="false" selection-start-line="181" selection-start-column="40" selection-end-line="181" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1490938305353" expanded="true" signature="429:468" ph="SELECT passw... employee" />
@@ -210,8 +209,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -346,7 +343,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -812,11 +811,13 @@
       <workItem from="1490935679680" duration="1914000" />
       <workItem from="1490937633595" duration="3800000" />
       <workItem from="1490947903333" duration="95000" />
+      <workItem from="1491050103202" duration="2552000" />
+      <workItem from="1491099135407" duration="12000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45798000" />
+    <option name="totallyTimeSpent" value="48362000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -942,7 +943,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1069,9 +1072,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1170,9 +1171,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1244,9 +1243,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1318,24 +1315,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/ConnDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/ClearDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="26" column="12" lean-forward="false" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/util/QueryUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -1379,26 +1358,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/EmployeeDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4925">
-          <caret line="200" column="25" lean-forward="false" selection-start-line="200" selection-start-column="25" selection-end-line="200" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1490938305353" expanded="true" signature="429:468" ph="SELECT passw... employee" />
-            <marker date="1490938305353" expanded="true" signature="1742:1779" ph="DELETE FROM " />
-            <marker date="1490938305353" expanded="true" signature="2500:2522" ph="SELECT * FRO... employee" />
-            <marker date="1490938305353" expanded="true" signature="3786:3941" ph="INSERT INTO employee... " />
-            <marker date="1490938305353" expanded="true" signature="5162:5216" ph="UPDATE emplo... " />
-            <marker date="1490938305353" expanded="true" signature="5510:5557" ph="UPDATE emplo... " />
-            <marker date="1490938305353" expanded="true" signature="5848:5895" ph="UPDATE emplo... " />
-            <marker date="1490938305353" expanded="true" signature="6186:6232" ph="UPDATE emplo... " />
-            <marker date="1490938305353" expanded="true" signature="6522:6576" ph="UPDATE emplo... " />
-            <marker date="1490938305353" expanded="true" signature="6871:6920" ph="UPDATE emplo... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/view/EmployeeView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
@@ -1421,9 +1380,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/util/ScannerUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/ClearDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="26" column="12" lean-forward="false" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/ConnDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zkyyo/www/dao/EmployeeDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="181" column="40" lean-forward="false" selection-start-line="181" selection-start-column="40" selection-end-line="181" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1490938305353" expanded="true" signature="429:468" ph="SELECT passw... employee" />
+            <marker date="1490938305353" expanded="true" signature="1742:1779" ph="DELETE FROM " />
+            <marker date="1490938305353" expanded="true" signature="2500:2522" ph="SELECT * FRO... employee" />
+            <marker date="1490938305353" expanded="true" signature="3786:3941" ph="INSERT INTO employee... " />
+            <marker date="1490938305353" expanded="true" signature="5162:5216" ph="UPDATE emplo... " />
+            <marker date="1490938305353" expanded="true" signature="5510:5557" ph="UPDATE emplo... " />
+            <marker date="1490938305353" expanded="true" signature="5848:5895" ph="UPDATE emplo... " />
+            <marker date="1490938305353" expanded="true" signature="6186:6232" ph="UPDATE emplo... " />
+            <marker date="1490938305353" expanded="true" signature="6522:6576" ph="UPDATE emplo... " />
+            <marker date="1490938305353" expanded="true" signature="6871:6920" ph="UPDATE emplo... " />
+          </folding>
         </state>
       </provider>
     </entry>
