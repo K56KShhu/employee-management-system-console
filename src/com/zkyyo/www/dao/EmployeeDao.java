@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.zkyyo.www.db.DbClose;
+import com.zkyyo.www.db.DbConn;
 import com.zkyyo.www.po.EmployeePo;
 
 public class EmployeeDao {
@@ -16,7 +18,7 @@ public class EmployeeDao {
      * @return 返回请求员工对象
      */
     public static EmployeePo loginCheck(int enterUserId) {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
 
         try {
@@ -42,7 +44,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new ClearDao(conn, stmt).close();
+            new DbClose(conn, stmt).close();
         }
         return null;
     }
@@ -53,7 +55,7 @@ public class EmployeeDao {
      * @return 删除成功返回true, 否则返回false
      */
     public static boolean deleteEmployee(int deletedUserId) {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
 
         try {
@@ -67,7 +69,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new ClearDao(conn, stmt).close();
+            new DbClose(conn, stmt).close();
         }
 
         return false;
@@ -78,7 +80,7 @@ public class EmployeeDao {
      * @return 返回一个包含所有员工对象的数组
      */
     public static ArrayList<EmployeePo> queryAllEmployees() {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
@@ -105,7 +107,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new ClearDao(conn, stmt, rs);
+            new DbClose(conn, stmt, rs);
         }
         return eps;
     }
@@ -116,7 +118,7 @@ public class EmployeeDao {
      * @return 添加成功返回true, 否则返回false
      */
     public static boolean addEmployee(EmployeePo newEp) {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdated = false;
 
@@ -140,7 +142,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new ClearDao(conn, stmt).close();
+            new DbClose(conn, stmt).close();
         }
         return isUpdated;
     }
@@ -152,7 +154,7 @@ public class EmployeeDao {
      * @param newEp 修改后的对象
      */
     public static boolean updateEmployee(int updateUserId, int type, EmployeePo newEp) {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdate = false;
 
@@ -208,7 +210,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new ClearDao(conn, stmt).close();
+            new DbClose(conn, stmt).close();
         }
         return isUpdate;
     }

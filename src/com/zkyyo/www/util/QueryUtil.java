@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.zkyyo.www.dao.ConnDao;
+import com.zkyyo.www.db.DbConn;
 import com.zkyyo.www.po.EmployeePo;
 
 public class QueryUtil {
@@ -16,7 +16,7 @@ public class QueryUtil {
      * @param searchedUserId 需要查找的员工号
      */
     public static EmployeePo queryEmployeeByUserId(int searchedUserId) {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
 
         try {
@@ -45,7 +45,7 @@ public class QueryUtil {
     }
 
     public static EmployeePo queryEmployeeByUserName(String searchedUserName) {
-        Connection conn = ConnDao.getConn();
+        Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
 
         try {

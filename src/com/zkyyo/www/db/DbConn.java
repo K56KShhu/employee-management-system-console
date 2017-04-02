@@ -1,10 +1,10 @@
-package com.zkyyo.www.dao;
+package com.zkyyo.www.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnDao {
+public class DbConn {
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost/test?useSSL=true";
 

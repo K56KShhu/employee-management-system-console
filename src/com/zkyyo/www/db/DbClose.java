@@ -1,4 +1,4 @@
-package com.zkyyo.www.dao;
+package com.zkyyo.www.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,17 +8,17 @@ import java.sql.SQLException;
 /**
  * 关闭与数据库的连接
  */
-public class ClearDao {
+public class DbClose {
     private Connection conn = null;
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
 
-    public ClearDao(Connection conn, PreparedStatement stmt) {
+    public DbClose(Connection conn, PreparedStatement stmt) {
         this.conn = conn;
         this.stmt = stmt;
     }
 
-    public ClearDao(Connection conn, PreparedStatement stmt, ResultSet rs) {
+    public DbClose(Connection conn, PreparedStatement stmt, ResultSet rs) {
         this(conn, stmt);
         this.rs = rs;
     }

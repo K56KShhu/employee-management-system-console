@@ -11,81 +11,72 @@ import com.zkyyo.www.view.EmployeeView;
 public class EmployeeServe {
 
     /**
-     * 精确查询员工个人信息
-     * @param handler 记录操作者
+     * 查询员工个人信息
+     * @param type 查询的方式
+     * @param handler 操作者
      */
-    public static void queryEmployeeInfo(EmployeePo handler) {
-        System.out.println("1. 通过员工号查询");
-        System.out.println("2. 通过员工名查询");
-        System.out.println("3. 显示所有员工");
-        System.out.println("请输入查询的方式(0返回员工个人信息管理界面): ");
+    public static void queryEmployeeInfo(int type, EmployeePo handler) {
 
-        do {
-            int choice = ScannerUtil.scanNum();
-            switch (choice) {
-                case 0:
-                    EmployeeView.employeeManage(handler);
-                    break;
-                case 1:
-                    System.out.println("请输入员工号");
-                    int searchedUserId = ScannerUtil.scanNum();
-                    EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(searchedUserId);
+        switch (type) {
+            case 1:
+                System.out.println("请输入员工号");
+                int searchedUserId = ScannerUtil.scanNum();
+                EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(searchedUserId);
 
-                    if (foundEp == null) {
-                        System.out.println("查无此人");
-                         EmployeeView.employeeManage(handler);
-                    } else {
-                        System.out.println("信息如下");//
-                        System.out.println("员工号 = " + foundEp.geteUserId());
-                        System.out.println("姓名 = " + foundEp.geteName());
-                        System.out.println("部门号 = " + foundEp.geteDeptId());
-                        System.out.println("电话 = " + foundEp.geteMobile());
-                        System.out.println("薪水 = " + foundEp.geteSalary());
-                        System.out.println("邮箱 = " + foundEp.geteEmail());
-                        System.out.println("就职时间 = " + foundEp.geteEmployDate());
-                        EmployeeView.employeeManage(handler);
-                    }
-                    break;
-                case 2:
-                    System.out.println("请输入员工名");
-                    String searchedUserName = ScannerUtil.scanString();
-                    EmployeePo foundEp2 = QueryUtil.queryEmployeeByUserName(searchedUserName);
-                    if (foundEp2 == null) {
-                        System.out.println("查无此人");
-                        EmployeeView.employeeManage(handler);
-                    } else {
-                        System.out.println("该员工信息如下");
-                        System.out.println("员工号 = " + foundEp2.geteUserId());
-                        System.out.println("姓名 = " + foundEp2.geteName());
-                        System.out.println("部门号 = " + foundEp2.geteDeptId());
-                        System.out.println("电话 = " + foundEp2.geteMobile());
-                        System.out.println("薪水 = " + foundEp2.geteSalary());
-                        System.out.println("邮箱 = " + foundEp2.geteEmail());
-                        System.out.println("就职时间 = " + foundEp2.geteEmployDate());
-                        //回到员工个人信息管理界面
-                        EmployeeView.employeeManage(handler);
-                    }
-                    break;
-                case 3:
-                    ArrayList<EmployeePo> eps;
-                    eps = EmployeeDao.queryAllEmployees();
-                    System.out.println("所有员工信息如下");//
-                    for (EmployeePo ep : eps) {
-                        System.out.println("员工号 = " + ep.geteUserId());
-                        System.out.println("姓名 = " + ep.geteName());
-                        System.out.println("部门号 = " + ep.geteDeptId());
-                        System.out.println("电话 = " + ep.geteMobile());
-                        System.out.println("薪水 = " + ep.geteSalary());
-                        System.out.println("邮箱 = " + ep.geteEmail());
-                        System.out.println("就职时间 = " + ep.geteEmployDate());
-                        System.out.println();
-                    }
+                if (foundEp == null) {
+                    System.out.println("查无此人");
                     EmployeeView.employeeManage(handler);
-                    break;
-                default:
-                    System.out.println("bad number");
-            }
-        } while (true);
+                } else {
+                    System.out.println("信息如下");//
+                    System.out.println("员工号 = " + foundEp.geteUserId());
+                    System.out.println("姓名 = " + foundEp.geteName());
+                    System.out.println("部门号 = " + foundEp.geteDeptId());
+                    System.out.println("电话 = " + foundEp.geteMobile());
+                    System.out.println("薪水 = " + foundEp.geteSalary());
+                    System.out.println("邮箱 = " + foundEp.geteEmail());
+                    System.out.println("就职时间 = " + foundEp.geteEmployDate());
+                    EmployeeView.employeeManage(handler);
+                }
+                break;
+            case 2:
+                System.out.println("请输入员工名");
+                String searchedUserName = ScannerUtil.scanString();
+                EmployeePo foundEp2 = QueryUtil.queryEmployeeByUserName(searchedUserName);
+                if (foundEp2 == null) {
+                    System.out.println("查无此人");
+                    EmployeeView.employeeManage(handler);
+                } else {
+                    System.out.println("该员工信息如下");
+                    System.out.println("员工号 = " + foundEp2.geteUserId());
+                    System.out.println("姓名 = " + foundEp2.geteName());
+                    System.out.println("部门号 = " + foundEp2.geteDeptId());
+                    System.out.println("电话 = " + foundEp2.geteMobile());
+                    System.out.println("薪水 = " + foundEp2.geteSalary());
+                    System.out.println("邮箱 = " + foundEp2.geteEmail());
+                    System.out.println("就职时间 = " + foundEp2.geteEmployDate());
+                    //回到员工个人信息管理界面
+                    EmployeeView.employeeManage(handler);
+                }
+                break;
+            case 3:
+                ArrayList<EmployeePo> eps;
+                eps = EmployeeDao.queryAllEmployees();
+                System.out.println("所有员工信息如下");//
+                for (EmployeePo ep : eps) {
+                    System.out.println("员工号 = " + ep.geteUserId());
+                    System.out.println("姓名 = " + ep.geteName());
+                    System.out.println("部门号 = " + ep.geteDeptId());
+                    System.out.println("电话 = " + ep.geteMobile());
+                    System.out.println("薪水 = " + ep.geteSalary());
+                    System.out.println("邮箱 = " + ep.geteEmail());
+                    System.out.println("就职时间 = " + ep.geteEmployDate());
+                    System.out.println();
+                }
+                EmployeeView.employeeManage(handler);
+                break;
+            default:
+                System.out.println("bad number");
+        }
     }
 
     public static void updateEmployeeInfo(EmployeePo handler) {

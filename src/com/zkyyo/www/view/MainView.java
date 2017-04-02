@@ -69,6 +69,7 @@ public class MainView {
                     break;
                 case 2:
                     DepartmentView.departmentManage(handler);
+                    break;
                 default:
                     System.out.println("bad number");
             }
