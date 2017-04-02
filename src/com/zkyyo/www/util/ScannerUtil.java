@@ -10,7 +10,7 @@ public class ScannerUtil {
 
     /**
      * 验证输入薪水,薪水最小精度为0.5元
-     * @return
+     * @return 薪水
      */
     public static double scanSalary() {
         Scanner in = new Scanner(System.in);
@@ -102,8 +102,8 @@ public class ScannerUtil {
      */
     public static Date scanSqlDate() {
         Scanner in = new Scanner(System.in);
-        Pattern p = null;
-        Matcher m = null;
+        Pattern p;
+        Matcher m;
         String regex = "^\\d{4}-\\d{1,2}-\\d{1,2}";
 
         do {
@@ -116,7 +116,10 @@ public class ScannerUtil {
                 p = Pattern.compile(regex);
                 m = p.matcher(enterStr);
                 //检查是否匹配xxxx-xx-xx格式
-                if (m.matches()) {
+                if (!m.matches()) {
+                    System.out.println("非法格式,请重新输入:");
+                }
+                else {
                     String[] yearMonthDay = enterStr.split("-");
                     int year = Integer.valueOf(yearMonthDay[0]);
                     int month = Integer.valueOf(yearMonthDay[1]);
@@ -134,9 +137,19 @@ public class ScannerUtil {
                         }
                     }
                 }
-                else
-                    System.out.println("非法格式,请重新输入:");
             }
+        } while(true);
+    }
+
+    public static String scanPwd() {
+        Scanner in = new Scanner(System.in);
+
+        do {
+            String enterStr = in.nextLine();
+            if (enterStr.equals(""))
+                System.out.println("密码不能为空,请重新输入");
+            else
+                return enterStr;
         } while(true);
     }
 }

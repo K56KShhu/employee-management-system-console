@@ -19,20 +19,20 @@ public class QueryUtil {
         PreparedStatement stmt = null;
 
         try {
-            String sql = "SELECT * FROM employee WHERE number = ?";
+            String sql = "SELECT * FROM employee WHERE user_id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, searchNum);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int eNumber = rs.getInt("number");
-                String ePassword = rs.getString("password");
-                String eName = rs.getString("name");
-                int eDepartmentId = rs.getInt("department_id");
+                int eNumber = rs.getInt("user_id");
+                String ePassword = rs.getString("user_pwd");
+                String eName = rs.getString("user_name");
+                int eDepartmentId = rs.getInt("dept_id");
                 String eMobile = rs.getString("mobile");
                 double eSalary = rs.getDouble("salary");
                 String eEmail = rs.getString("email");
-                String eEmployDate = rs.getString("employee_date");
+                java.sql.Date eEmployDate = rs.getDate("employee_date");
 
                 EmployeePo ep = new EmployeePo(eNumber, ePassword, eName, eDepartmentId, eMobile, eSalary, eEmail, eEmployDate);
                 return ep;
@@ -48,7 +48,7 @@ public class QueryUtil {
         PreparedStatement stmt = null;
 
         try {
-            String sql = "SELECT * FROM employee WHERE name = ?";
+            String sql = "SELECT * FROM employee WHERE user_name=?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, searchName);
             ResultSet rs = stmt.executeQuery();
@@ -61,7 +61,7 @@ public class QueryUtil {
                 String eMobile = rs.getString("mobile");
                 double eSalary = rs.getDouble("salary");
                 String eEmail = rs.getString("email");
-                String eEmployDate = rs.getString("employee_date");
+                java.sql.Date eEmployDate = rs.getDate("employee_date");
 
                 EmployeePo ep = new EmployeePo(eNumber, ePassword, eName, eDepartmentId, eMobile, eSalary, eEmail, eEmployDate);
                 return ep;

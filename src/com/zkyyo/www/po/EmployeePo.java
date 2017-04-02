@@ -1,5 +1,7 @@
 package com.zkyyo.www.po;
 
+import java.sql.Date;
+
 public class EmployeePo {
     private int eNumber;
     private String ePassword;
@@ -8,9 +10,10 @@ public class EmployeePo {
     private String eMobile;
     private double eSalary;
     private String eEmail;
-    private String eEmployDate;
+    private Date eEmployDate;
 
-    public EmployeePo(int eNumber, String ePassword, String eName, int eDepartmentId, String eMobile, double eSalary, String eEmail, String eEmployDate) {
+    public EmployeePo(int eNumber, String ePassword, String eName, int eDepartmentId,
+                      String eMobile, double eSalary, String eEmail, Date eEmployDate) {
         this.eNumber = eNumber;
         this.ePassword = ePassword;
         this.eName = eName;
@@ -68,10 +71,10 @@ public class EmployeePo {
     public void seteEmail(String eEmail) {
         this.eEmail = eEmail;
     }
-    public String geteEmployDate() {
+    public Date geteEmployDate() {
         return eEmployDate;
     }
-    public void seteEmployDate(String eEmployDate) {
+    public void seteEmployDate(Date eEmployDate) {
         this.eEmployDate = eEmployDate;
     }
 

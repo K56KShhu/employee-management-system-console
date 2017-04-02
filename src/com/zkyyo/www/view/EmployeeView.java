@@ -9,7 +9,7 @@ import java.util.Scanner;
  * 员工管理界面，以后会加入评价系统
  */
 public class EmployeeView {
-       public static void personInfoManage(EmployeePo handler) {
+       public static void employeeManage(EmployeePo handler) {
         System.out.println("********员工个人信息管理********");
         System.out.println("1. 查询员工信息");
         System.out.println("2. 修改员工信息");

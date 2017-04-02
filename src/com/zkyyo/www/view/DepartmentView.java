@@ -1,10 +1,10 @@
 package com.zkyyo.www.view;
 
-/**
- * Created by xu on 3/30/17.
- */
 public class DepartmentView {
-    /*
-    １. 在同一包内不用import
-     */
+    public static void departmentManage() {
+        System.out.println("1. 查询部门");
+        System.out.println("2. 修改部门");
+        System.out.println("3. 增加部门");
+        System.out.println("4. 删除部门");
+    }
 }

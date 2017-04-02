@@ -4,8 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import com.zkyyo.www.po.EmployeePo;
-// ???访问权限???
-
 
 public class EmployeeDao {
 
@@ -19,22 +17,23 @@ public class EmployeeDao {
         PreparedStatement stmt = null;
 
         try {
-            String sql = "SELECT * FROM employee WHERE number = ?";
+            String sql = "SELECT * FROM employee WHERE user_id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, enterNumber);
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                int eNumber = rs.getInt("number");
-                String ePassword = rs.getString("password");
-                String eName = rs.getString("name");
-                int eDepartmentId = rs.getInt("department_id");
+            if (rs.next()) {
+                int eNumber = rs.getInt("user_id");
+                String ePassword = rs.getString("user_pwd");
+                String eName = rs.getString("user_name");
+                int eDepartmentId = rs.getInt("dept_id");
                 String eMobile = rs.getString("mobile");
                 double eSalary = rs.getDouble("salary");
                 String eEmail = rs.getString("email");
-                String eEmployDate = rs.getString("employee_date");
+                java.sql.Date eEmployDate = rs.getDate("employee_date");
 
-                EmployeePo ep = new EmployeePo(eNumber, ePassword, eName, eDepartmentId, eMobile, eSalary, eEmail, eEmployDate);
+                EmployeePo ep = new EmployeePo(eNumber, ePassword, eName,
+                        eDepartmentId, eMobile, eSalary, eEmail, eEmployDate);
                 return ep;
             }
         } catch (SQLException e) {
@@ -55,7 +54,7 @@ public class EmployeeDao {
         PreparedStatement stmt = null;
 
         try {
-            String sql = "DELETE FROM employee WHERE number = ?";
+            String sql = "DELETE FROM employee WHERE user_id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, deletedNumber);
 
@@ -87,14 +86,14 @@ public class EmployeeDao {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int eNumber = rs.getInt("number");
-                String ePassword = rs.getString("password");
-                String eName = rs.getString("name");
-                int eDepartmentId = rs.getInt("department_id");
+                int eNumber = rs.getInt("user_id");
+                String ePassword = rs.getString("user_pwd");
+                String eName = rs.getString("user_name");
+                int eDepartmentId = rs.getInt("dept_id");
                 String eMobile = rs.getString("mobile");
                 double eSalary = rs.getDouble("salary");
                 String eEmail = rs.getString("email");
-                String eEmployDate = rs.getString("employee_date");
+                java.sql.Date eEmployDate = rs.getDate("employee_date");
 
                 EmployeePo ep = new EmployeePo(eNumber, ePassword, eName, eDepartmentId,
                         eMobile, eSalary, eEmail, eEmployDate);
@@ -119,7 +118,8 @@ public class EmployeeDao {
         boolean isUpdated = false;
 
         try {
-            String sql = "INSERT INTO employee (number, password, name, department_id, mobile, salary, email, employee_date) " +
+            String sql = "INSERT INTO employee (user_id, user_pwd, usr_name, dept_id," +
+                    " mobile, salary, email, employee_date)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, newEp.geteNumber());
@@ -129,7 +129,7 @@ public class EmployeeDao {
             stmt.setString(5, newEp.geteMobile());
             stmt.setDouble(6, newEp.geteSalary());
             stmt.setString(7, newEp.geteEmail());
-            stmt.setString(8, newEp.geteEmployDate());
+            stmt.setDate(8, newEp.geteEmployDate());
 
             int efforts = stmt.executeUpdate();
             if (efforts > 0)
@@ -158,42 +158,42 @@ public class EmployeeDao {
             int effects = 0;
             switch (type) {
                 case 1:
-                    sql = "UPDATE employee SET department_id = ? WHERE number = ?";
+                    sql = "UPDATE employee SET dept_id=? WHERE user_id=?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setInt(1, newEp.geteDepartmentId());
                     stmt.setInt(2, number);
                     effects = stmt.executeUpdate();
                     break;
                 case 2:
-                    sql = "UPDATE employee SET mobile = ? WHERE number = ?";
+                    sql = "UPDATE employee SET mobile=? WHERE user_id=?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setString(1, newEp.geteMobile());
                     stmt.setInt(2, number);
                     effects = stmt.executeUpdate();
                     break;
                 case 3:
-                    sql = "UPDATE employee SET salary = ? WHERE number = ?";
+                    sql = "UPDATE employee SET salary=? WHERE user_id=?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setDouble(1, newEp.geteSalary());
                     stmt.setInt(2, number);
                     effects = stmt.executeUpdate();
                     break;
                 case 4:
-                    sql = "UPDATE employee SET email = ? WHERE number = ?";
+                    sql = "UPDATE employee SET email=? WHERE user_id=?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setString(1, newEp.geteEmail());
                     stmt.setInt(2, number);
                     effects = stmt.executeUpdate();
                     break;
                 case 5:
-                    sql = "UPDATE employee SET employee_date = ? WHERE number = ?";
+                    sql = "UPDATE employee SET employee_date=? WHERE user_id=?";
                     stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, newEp.geteEmployDate());
+                    stmt.setDate(1, newEp.geteEmployDate());
                     stmt.setInt(2, number);
                     effects = stmt.executeUpdate();
                     break;
                 case 6:
-                    sql = "UPDATE employee SET password = ? WHERE number = ?";
+                    sql = "UPDATE employee SET user_pwd=? WHERE user_id=?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setString(1, newEp.getePassword());
                     stmt.setInt(2, number);
