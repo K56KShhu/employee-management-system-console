@@ -54,6 +54,7 @@ public class MainView {
         System.out.println("********功能********");
         System.out.println("1. 员工个人信息管理");
         System.out.println("2. 部门信息管理");
+        System.out.println("3. 评价系统");
         System.out.println("*******************");
         System.out.println("你好, " + handler.geteName());
         System.out.println("请选择(0回到登录界面): ");
@@ -69,6 +70,9 @@ public class MainView {
                     break;
                 case 2:
                     DepartmentView.departmentManage(handler);
+                    break;
+                case 3:
+
                     break;
                 default:
                     System.out.println("bad number");

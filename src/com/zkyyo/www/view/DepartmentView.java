@@ -1,5 +1,6 @@
 package com.zkyyo.www.view;
 
+import com.zkyyo.www.dao.DepartmentDao;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.serve.DepartmentServe;
 import com.zkyyo.www.util.ScannerUtil;
@@ -18,18 +19,19 @@ public class DepartmentView {
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
-                    MainView.mainView();
+                    MainView.functionsChoice(handler);
                     break;
                 case 1:
+                    departmentQueryWays(handler);
                     break;
                 case 2:
-                    DepartmentServe.updateDept();
+                    DepartmentServe.updateDept(handler);
                     break;
                 case 3:
-                    DepartmentServe.addDept();
+                    DepartmentServe.addDept(handler);
                     break;
                 case 4:
-                    DepartmentServe.deleteDept();
+                    DepartmentServe.deleteDept(handler);
                     break;
                 default:
                     System.out.println("bad number");
@@ -50,10 +52,13 @@ public class DepartmentView {
                     departmentManage(handler);
                     break;
                 case 1:
+                    DepartmentServe.queryDeptInfo(1, handler);
                     break;
                 case 2:
+                    DepartmentServe.queryDeptInfo(2, handler);
                     break;
                 case 3:
+                    DepartmentServe.queryDeptInfo(3, handler);
                     break;
                 default:
                     System.out.println("bad number");

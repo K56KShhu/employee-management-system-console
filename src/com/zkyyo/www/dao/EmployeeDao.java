@@ -20,12 +20,13 @@ public class EmployeeDao {
     public static EmployeePo loginCheck(int enterUserId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
+        ResultSet rs = null;
 
         try {
             String sql = "SELECT * FROM employee WHERE user_id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, enterUserId);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
             if (rs.next()) {
                 int eUserId = rs.getInt("user_id");
@@ -44,7 +45,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new DbClose(conn, stmt).close();
+            DbClose.close(conn, stmt, rs);
         }
         return null;
     }
@@ -69,7 +70,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new DbClose(conn, stmt).close();
+            DbClose.close(conn, stmt);
         }
 
         return false;
@@ -107,7 +108,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new DbClose(conn, stmt, rs);
+            DbClose.close(conn, stmt, rs);
         }
         return eps;
     }
@@ -142,7 +143,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new DbClose(conn, stmt).close();
+            DbClose.close(conn, stmt);
         }
         return isUpdated;
     }
@@ -210,7 +211,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            new DbClose(conn, stmt).close();
+            DbClose.close(conn, stmt);
         }
         return isUpdate;
     }

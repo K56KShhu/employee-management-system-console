@@ -51,7 +51,7 @@ public class ScannerUtil {
                 if (m.matches())
                     return Integer.valueOf(enterStr);
                 else
-                    System.out.println("数字输入有误,请重新输入:");
+                    System.out.println("请输入纯数字:");
             }
         } while(true);
     }
@@ -70,7 +70,7 @@ public class ScannerUtil {
             String enterStr = in.nextLine();
             enterStr = enterStr.trim();
             if (enterStr.equals(""))
-                System.out.println("检测到空行,请重新输入:");
+                return "";
             else {
                 p = Pattern.compile(regex);
                 m = p.matcher(enterStr);
@@ -82,14 +82,18 @@ public class ScannerUtil {
         } while(true);
     }
 
-    public static String scanString() {
+    public static String scanString(boolean required) {
         Scanner in = new Scanner(System.in);
 
         do {
             String enterStr = in.nextLine();
             enterStr = enterStr.trim();
-            if (enterStr.equals(""))
-                System.out.println("检测到空行,请重新输入:");
+            if (enterStr.equals("")) {
+                if (required)
+                    System.out.println("检测到空行,请重新输入:");
+                else
+                    return "";
+            }
             else {
                 return enterStr;
             }
