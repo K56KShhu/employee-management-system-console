@@ -65,14 +65,17 @@ public class EmployeeServe {
                 eps = EmployeeDao.queryAllEmployees();
                 System.out.println("所有员工信息如下");//
                 for (EmployeePo ep : eps) {
-                    System.out.println("员工号 = " + ep.geteUserId());
-                    System.out.println("姓名 = " + ep.geteName());
-                    System.out.println("部门号 = " + ep.geteDeptId());
-                    System.out.println("电话 = " + ep.geteMobile());
-                    System.out.println("薪水 = " + ep.geteSalary());
-                    System.out.println("邮箱 = " + ep.geteEmail());
-                    System.out.println("就职时间 = " + ep.geteEmployDate());
-                    System.out.println();
+//                    System.out.println("员工号 = " + ep.geteUserId());
+//                    System.out.println("姓名 = " + ep.geteName());
+//                    System.out.println("部门号 = " + ep.geteDeptId());
+//                    System.out.println("电话 = " + ep.geteMobile());
+//                    System.out.println("薪水 = " + ep.geteSalary());
+//                    System.out.println("邮箱 = " + ep.geteEmail());
+//                    System.out.println("就职时间 = " + ep.geteEmployDate());
+//                    System.out.println();
+                    System.out.printf("员工号=%-8d 员工名=%-8s 部门号=%-8d 手机号=%-16s 薪水=%-16.2f 邮箱=%-24s 就职日期%-16s\n",
+                            ep.geteUserId(), ep.geteName(), ep.geteDeptId(), ep.geteMobile(),
+                            ep.geteSalary(), ep.geteEmail(), ep.geteEmployDate());
                 }
                 EmployeeView.employeeManage(handler);
                 break;

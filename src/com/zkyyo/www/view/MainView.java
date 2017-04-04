@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.EmployeePo;
+import com.zkyyo.www.po.EvaluationPo;
 import com.zkyyo.www.util.ScannerUtil;
 
 public class MainView {
@@ -72,7 +73,7 @@ public class MainView {
                     DepartmentView.departmentManage(handler);
                     break;
                 case 3:
-
+                    EvaluationView.evaluationManage(handler);
                     break;
                 default:
                     System.out.println("bad number");
