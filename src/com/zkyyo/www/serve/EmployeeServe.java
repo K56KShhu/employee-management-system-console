@@ -115,9 +115,9 @@ public class EmployeeServe {
 
             do {
                 int choice = ScannerUtil.scanNum();
-                if (choice == 0)
+                if (choice == 0) {
                     EmployeeView.employeeManage(handler);
-                else {
+                } else {
                     System.out.println("请输入修改后的信息:");
                     switch (choice) {
                         case 1:
@@ -152,11 +152,12 @@ public class EmployeeServe {
                             break;
                         default:
                             System.out.println("bad number");
+                            break;
                     }
                 }
-                if (isUpdate)
+                if (isUpdate) {
                     System.out.println("修改成功, 选择相应选项可继续修改或0退出修改:");
-                else {
+                } else {
                     System.out.println("修改失败, 即将退出修改");
                     EmployeeView.employeeManage(handler);
                 }
@@ -208,10 +209,11 @@ public class EmployeeServe {
         newEp.seteEmployDate(sqlDate);
 
         isUpdated = EmployeeDao.addEmployee(newEp);
-        if (isUpdated)
+        if (isUpdated) {
             System.out.println("添加员工成功");
-        else
+        } else {
             System.out.println("添加员工失败");
+        }
 
         EmployeeView.employeeManage(handler);
     }
@@ -246,10 +248,11 @@ public class EmployeeServe {
 
                 if (firstLetter.equalsIgnoreCase("y")) {
                     boolean isDeleted = EmployeeDao.deleteEmployee(deletedUserId);
-                    if (isDeleted)
+                    if (isDeleted) {
                         System.out.println("你已成功删除该员工");
-                    else
+                    } else {
                         System.out.println("删除员工操作失败");
+                    }
                     EmployeeView.employeeManage(handler);
                 } else if (firstLetter.equalsIgnoreCase("n")) {
                     EmployeeView.employeeManage(handler);

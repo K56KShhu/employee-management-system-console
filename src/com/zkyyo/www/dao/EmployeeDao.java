@@ -14,6 +14,7 @@ public class EmployeeDao {
 
     /**
      * 用于验证登录
+     *
      * @param enterUserId 请求登录的员工号
      * @return 返回请求员工对象
      */
@@ -52,6 +53,7 @@ public class EmployeeDao {
 
     /**
      * 删除选中的员工
+     *
      * @param deletedUserId 待删除员工的员工号
      * @return 删除成功返回true, 否则返回false
      */
@@ -65,8 +67,9 @@ public class EmployeeDao {
             stmt.setInt(1, deletedUserId);
 
             int effects = stmt.executeUpdate();
-            if (effects > 0)
+            if (effects > 0) {
                 return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -78,6 +81,7 @@ public class EmployeeDao {
 
     /**
      * 查询数据库中的所有员工
+     *
      * @return 返回一个包含所有员工对象的数组
      */
     public static ArrayList<EmployeePo> queryAllEmployees() {
@@ -115,6 +119,7 @@ public class EmployeeDao {
 
     /**
      * 向数据库中添加新员工
+     *
      * @param newEp 操作者
      * @return 添加成功返回true, 否则返回false
      */
@@ -138,8 +143,9 @@ public class EmployeeDao {
             stmt.setDate(8, newEp.geteEmployDate());
 
             int efforts = stmt.executeUpdate();
-            if (efforts > 0)
+            if (efforts > 0) {
                 isUpdated = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -150,9 +156,10 @@ public class EmployeeDao {
 
     /**
      * 修改员工数据
+     *
      * @param updateUserId 待修改员工的员工号
-     * @param type 待修改的数据类型
-     * @param newEp 修改后的对象
+     * @param type         待修改的数据类型
+     * @param newEp        修改后的对象
      */
     public static boolean updateEmployee(int updateUserId, int type, EmployeePo newEp) {
         Connection conn = DbConn.getConn();
@@ -205,9 +212,12 @@ public class EmployeeDao {
                     stmt.setInt(2, updateUserId);
                     effects = stmt.executeUpdate();
                     break;
+                default:
+                    break;
             }
-            if (effects > 0)
+            if (effects > 0) {
                 isUpdate = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

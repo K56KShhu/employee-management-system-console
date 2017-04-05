@@ -35,8 +35,9 @@ public class DepartmentView {
                     break;
                 default:
                     System.out.println("bad number");
+                    break;
             }
-        } while(true);
+        } while (true);
     }
 
     public static void departmentQueryWays(EmployeePo handler) {
@@ -62,7 +63,8 @@ public class DepartmentView {
                     break;
                 default:
                     System.out.println("bad number");
+                    break;
             }
-        } while(true);
+        } while (true);
     }
 }

@@ -17,11 +17,12 @@ public class EvaluationDao {
         boolean isAdded = false;
 
         try {
-            String sql = "INSERT INTO evaluation (be_evaluated_id, evaluator_id, content) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO evaluation (be_evaluated_id, evaluator_id, star_level, comment) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, newEval.getBeEvaluatedId());
             stmt.setInt(2, newEval.getEvaluatorId());
-            stmt.setString(3, newEval.getComment());
+            stmt.setInt(3, newEval.getStarLevel());
+            stmt.setString(4, newEval.getComment());
             int effects = stmt.executeUpdate();
             if (effects > 0)
                 isAdded = true;
@@ -32,33 +33,6 @@ public class EvaluationDao {
         }
         return isAdded;
     }
-
-//    public static ArrayList<EvaluationPo> selectEvaluationListByBeEvaluatedId(int beEvaluatedId) {
-//        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
-//        Connection conn = DbConn.getConn();
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=?";
-//            stmt = conn.prepareStatement(sql);
-//            stmt.setInt(1, beEvaluatedId);
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                int evaluatorId = rs.getInt("evaluator_id");
-//                String content = rs.getString("content");
-//                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-//                evals.add(eval);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            DbClose.close(conn, stmt, rs);
-//        }
-//
-//        return evals;
-//    }
 
     public static Map<Integer, EvaluationPo> selectEvaluationMapByEvaluatorId(int evaluatorId) {
         Map<Integer, EvaluationPo> evals = new TreeMap<>();
@@ -88,63 +62,95 @@ public class EvaluationDao {
         } finally {
             DbClose.close(conn, stmt, rs);
         }
-
         return evals;
     }
-//
-//    public static ArrayList<EvaluationPo> selectEvaluationListByBothId(int beEvaluatedId, int evaluatorId) {
-//        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
-//        Connection conn = DbConn.getConn();
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=? AND evaluator_id=?";
-//            stmt = conn.prepareStatement(sql);
-//            stmt.setInt(1, beEvaluatedId);
-//            stmt.setInt(2, evaluatorId);
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                String content = rs.getString("content");
-//                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-//                evals.add(eval);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            DbClose.close(conn, stmt, rs);
-//        }
-//
-//        return evals;
-//    }
-//
-//    public static ArrayList<EvaluationPo> selectEvaluationList() {
-//        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
-//        Connection conn = DbConn.getConn();
-//        Statement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            String sql = "SELECT * FROM evaluation";
-//            stmt = conn.createStatement();
-//            rs = stmt.executeQuery(sql);
-//
-//            while (rs.next()) {
-//                int beEvaluatedId = rs.getInt("be_evaluated_id");
-//                int evaluatorId = rs.getInt("evaluator_id");
-//                String content = rs.getString("content");
-//                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-//                evals.add(eval);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            DbClose.close(conn, stmt, rs);
-//        }
-//
-//        return evals;
-//    }
+
+    public static Map<Integer, EvaluationPo> selectEvaluationMapByBeEvaluatedId(int beEvaluatedId) {
+        Map<Integer, EvaluationPo> evals = new TreeMap<>();
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, beEvaluatedId);
+            rs = stmt.executeQuery();
+
+            int index = 1;
+            while (rs.next()) {
+                int evaluationId = rs.getInt("test_evaluation_id");
+                int evaluatorId = rs.getInt("evaluator_id");
+                int starLevel = rs.getInt("star_level");
+                String comment = rs.getString("comment");
+
+                EvaluationPo eval = new EvaluationPo(evaluationId, beEvaluatedId, evaluatorId, starLevel, comment);
+                evals.put(index, eval);
+                index++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return evals;
+    }
+
+    public static Map<Integer, EvaluationPo> selectEvaluationMap() {
+        Map<Integer, EvaluationPo> evals = new TreeMap<>();
+        Connection conn = DbConn.getConn();
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM evaluation";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            int index = 1;
+            while (rs.next()) {
+                int evaluationId = rs.getInt("test_evaluation_id");
+                int beEvaluatedId = rs.getInt("be_evaluated_id");
+                int evaluatorId = rs.getInt("evaluator_id");
+                int starLevel = rs.getInt("star_level");
+                String comment = rs.getString("comment");
+
+                EvaluationPo eval = new EvaluationPo(evaluationId, beEvaluatedId, evaluatorId, starLevel, comment);
+                evals.put(index, eval);
+                index++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return evals;
+    }
+
+    public static boolean updateEvaluation(EvaluationPo newEvaluation) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        boolean isUpdated = false;
+
+        try {
+            String sql = "UPDATE evaluation SET star_level=?, comment=? WHERE test_evaluation_id=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, newEvaluation.getStarLevel());
+            stmt.setString(2, newEvaluation.getComment());
+            stmt.setInt(3, newEvaluation.getEvaluationId());
+            int effects = stmt.executeUpdate();
+
+            if (effects > 0) {
+                isUpdated = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt);
+        }
+
+        return isUpdated;
+    }
 
     public static boolean deleteEvaluation(int evaluationId) {
         Connection conn = DbConn.getConn();

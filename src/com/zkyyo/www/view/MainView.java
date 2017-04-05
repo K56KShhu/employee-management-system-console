@@ -1,10 +1,7 @@
 package com.zkyyo.www.view;
 
-import java.util.Scanner;
-
 import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.EmployeePo;
-import com.zkyyo.www.po.EvaluationPo;
 import com.zkyyo.www.util.ScannerUtil;
 
 public class MainView {
@@ -47,8 +44,9 @@ public class MainView {
                     break;
                 default:
                     System.out.println("bad number");
+                    break;
             }
-        } while(true);
+        } while (true);
     }
 
     public static void functionsChoice(EmployeePo handler) {
@@ -77,7 +75,8 @@ public class MainView {
                     break;
                 default:
                     System.out.println("bad number");
+                    break;
             }
-        } while(true);
+        } while (true);
     }
 }

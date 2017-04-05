@@ -25,8 +25,9 @@ public class DepartmentDao {
             stmt.setDate(5, newDept.getBuiltDate());
 
             int effects = stmt.executeUpdate();
-            if (effects > 0)
+            if (effects > 0) {
                 isAdded = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -75,8 +76,9 @@ public class DepartmentDao {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, deleteddeptId);
             int effects = stmt.executeUpdate();
-            if (effects > 0)
+            if (effects > 0) {
                 isDeleted = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -119,8 +121,9 @@ public class DepartmentDao {
                     effects = stmt.executeUpdate();
                     break;
             }
-            if (effects > 0)
+            if (effects > 0) {
                 isUpdated = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

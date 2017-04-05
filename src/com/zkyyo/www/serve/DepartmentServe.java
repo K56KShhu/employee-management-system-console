@@ -32,10 +32,11 @@ public class DepartmentServe {
         newDept.setBuiltDate(newBuiltDate);
 
         isAdded = DepartmentDao.addDepartment(newDept);
-        if (isAdded)
+        if (isAdded) {
             System.out.println("建立部门成功");
-        else
+        } else {
             System.out.println("建立部门失败");
+        }
         DepartmentView.departmentManage(handler);
     }
 
@@ -47,8 +48,7 @@ public class DepartmentServe {
         if (deletedDept == null) {
             System.out.println("该部门不存在");
             DepartmentView.departmentManage(handler);
-        }
-        else {
+        } else {
             System.out.println("信息如下");
             System.out.println("部门号: " + deletedDept.getDeptId());
             System.out.println("部门名: " + deletedDept.getDeptName());
@@ -63,10 +63,11 @@ public class DepartmentServe {
 
                 if (firstLetter.equalsIgnoreCase("y")) {
                     boolean isDeleted = DepartmentDao.deleteDept(deletedDeptId);
-                    if (isDeleted)
+                    if (isDeleted) {
                         System.out.println("你已成功删除该部门");
-                    else
+                    } else {
                         System.out.println("删除部门操作失败");
+                    }
                     DepartmentView.departmentManage(handler);
                 } else if (firstLetter.equalsIgnoreCase("n")) {
                     DepartmentView.departmentManage(handler);
@@ -85,11 +86,11 @@ public class DepartmentServe {
         System.out.println("请输入需要修改的部门号:");
         int updatedDeptId = ScannerUtil.scanNum();
         DepartmentPo foundDept = QueryUtil.queryDeptByDeptId(updatedDeptId);
-        if (foundDept == null)
+        if (foundDept == null) {
             System.out.println("查无此部门");
-        else {
+        } else {
             System.out.println("信息如下");
-            System.out.println("部门号: " +  foundDept.getDeptId());
+            System.out.println("部门号: " + foundDept.getDeptId());
             System.out.println("部门名: " + foundDept.getDeptName());
             System.out.println("部门人数: " + foundDept.getDeptPopulation());
             System.out.println("部门描述: " + foundDept.getDeptDesc());
@@ -131,15 +132,15 @@ public class DepartmentServe {
                         break;
                     default:
                         System.out.println("bad number");
+                        break;
                 }
                 if (isUpdate) {
                     System.out.println("修改成功,继续修改或0返回部门信息管理:");
-                }
-                else {
+                } else {
                     System.out.println("修改失败,正在返回部门信息管理");
                     DepartmentView.departmentManage(handler);
                 }
-            } while(true);
+            } while (true);
         }
     }
 
@@ -170,9 +171,9 @@ public class DepartmentServe {
                 String deptName = ScannerUtil.scanString(true);
                 foundDept = QueryUtil.queryDeptByDeptName(deptName);
 
-                if (foundDept == null)
+                if (foundDept == null) {
                     System.out.println("查无此部门");
-                else {
+                } else {
                     System.out.println("信息如下");
                     System.out.println("部门号: " + foundDept.getDeptId());
                     System.out.println("部门名: " + foundDept.getDeptName());
@@ -184,9 +185,9 @@ public class DepartmentServe {
                 break;
             case 3:
                 ArrayList<DepartmentPo> depts = DepartmentDao.queryAllDepts();
-                if (depts.size() == 0)
+                if (depts.size() == 0) {
                     System.out.println("找不到任何部门");
-                else {
+                } else {
                     for (DepartmentPo dept : depts) {
                         System.out.println("部门号: " + dept.getDeptId());
                         System.out.println("部门名: " + dept.getDeptName());

@@ -8,7 +8,7 @@ import com.zkyyo.www.util.ScannerUtil;
  * 员工管理界面，以后会加入评价系统
  */
 public class EmployeeView {
-       public static void employeeManage(EmployeePo handler) {
+    public static void employeeManage(EmployeePo handler) {
         System.out.println("********员工个人信息管理********");
         System.out.println("1. 查询员工信息");   //通过员工号,员工名 精确
         System.out.println("2. 修改员工信息");   //通过员工号, 精确
@@ -37,6 +37,7 @@ public class EmployeeView {
                     break;
                 default:
                     System.out.println("bad number");
+                    break;
             }
         } while (true);
     }
@@ -64,7 +65,8 @@ public class EmployeeView {
                     break;
                 default:
                     System.out.println("bad number");
+                    break;
             }
-        } while(true);
+        } while (true);
     }
 }
