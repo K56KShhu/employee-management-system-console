@@ -6,6 +6,8 @@ import com.zkyyo.www.po.EvaluationPo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class EvaluationDao {
 
@@ -19,7 +21,7 @@ public class EvaluationDao {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, newEval.getBeEvaluatedId());
             stmt.setInt(2, newEval.getEvaluatorId());
-            stmt.setString(3, newEval.getContent());
+            stmt.setString(3, newEval.getComment());
             int effects = stmt.executeUpdate();
             if (effects > 0)
                 isAdded = true;
@@ -31,35 +33,35 @@ public class EvaluationDao {
         return isAdded;
     }
 
-    public static ArrayList<EvaluationPo> selectEvaluationListByBeEvaluatedId(int beEvaluatedId) {
-        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+//    public static ArrayList<EvaluationPo> selectEvaluationListByBeEvaluatedId(int beEvaluatedId) {
+//        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
+//        Connection conn = DbConn.getConn();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=?";
+//            stmt = conn.prepareStatement(sql);
+//            stmt.setInt(1, beEvaluatedId);
+//            rs = stmt.executeQuery();
+//
+//            while (rs.next()) {
+//                int evaluatorId = rs.getInt("evaluator_id");
+//                String content = rs.getString("content");
+//                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
+//                evals.add(eval);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            DbClose.close(conn, stmt, rs);
+//        }
+//
+//        return evals;
+//    }
 
-        try {
-            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, beEvaluatedId);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                int evaluatorId = rs.getInt("evaluator_id");
-                String content = rs.getString("content");
-                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-                evals.add(eval);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DbClose.close(conn, stmt, rs);
-        }
-
-        return evals;
-    }
-
-    public static ArrayList<EvaluationPo> selectEvaluationListByEvaluatorId(int evaluatorId) {
-        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
+    public static Map<Integer, EvaluationPo> selectEvaluationMapByEvaluatorId(int evaluatorId) {
+        Map<Integer, EvaluationPo> evals = new TreeMap<>();
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -70,11 +72,16 @@ public class EvaluationDao {
             stmt.setInt(1, evaluatorId);
             rs = stmt.executeQuery();
 
+            int index = 1;
             while (rs.next()) {
+                int evaluationId = rs.getInt("test_evaluation_id");
                 int beEvaluatedId = rs.getInt("be_evaluated_id");
-                String content = rs.getString("content");
-                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-                evals.add(eval);
+                int starLevel = rs.getInt("star_level");
+                String comment = rs.getString("comment");
+
+                EvaluationPo eval = new EvaluationPo(evaluationId, beEvaluatedId, evaluatorId, starLevel, comment);
+                evals.put(index, eval);
+                index++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,59 +91,80 @@ public class EvaluationDao {
 
         return evals;
     }
+//
+//    public static ArrayList<EvaluationPo> selectEvaluationListByBothId(int beEvaluatedId, int evaluatorId) {
+//        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
+//        Connection conn = DbConn.getConn();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=? AND evaluator_id=?";
+//            stmt = conn.prepareStatement(sql);
+//            stmt.setInt(1, beEvaluatedId);
+//            stmt.setInt(2, evaluatorId);
+//            rs = stmt.executeQuery();
+//
+//            while (rs.next()) {
+//                String content = rs.getString("content");
+//                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
+//                evals.add(eval);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            DbClose.close(conn, stmt, rs);
+//        }
+//
+//        return evals;
+//    }
+//
+//    public static ArrayList<EvaluationPo> selectEvaluationList() {
+//        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
+//        Connection conn = DbConn.getConn();
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            String sql = "SELECT * FROM evaluation";
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery(sql);
+//
+//            while (rs.next()) {
+//                int beEvaluatedId = rs.getInt("be_evaluated_id");
+//                int evaluatorId = rs.getInt("evaluator_id");
+//                String content = rs.getString("content");
+//                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
+//                evals.add(eval);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            DbClose.close(conn, stmt, rs);
+//        }
+//
+//        return evals;
+//    }
 
-    public static ArrayList<EvaluationPo> selectEvaluationListByBothId(int beEvaluatedId, int evaluatorId) {
-        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
+    public static boolean deleteEvaluation(int evaluationId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        boolean isDeleted = false;
 
         try {
-            String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=? AND evaluator_id=?";
+            String sql = "DELETE FROM evaluation WHERE test_evaluation_id=?";
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, beEvaluatedId);
-            stmt.setInt(2, evaluatorId);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String content = rs.getString("content");
-                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-                evals.add(eval);
+            stmt.setInt(1, evaluationId);
+            int effects = stmt.executeUpdate();
+            if (effects > 0) {
+                isDeleted = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, stmt);
         }
 
-        return evals;
+        return isDeleted;
     }
-
-    public static ArrayList<EvaluationPo> selectEvaluationList() {
-        ArrayList<EvaluationPo> evals = new ArrayList<EvaluationPo>();
-        Connection conn = DbConn.getConn();
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = "SELECT * FROM evaluation";
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                int beEvaluatedId = rs.getInt("be_evaluated_id");
-                int evaluatorId = rs.getInt("evaluator_id");
-                String content = rs.getString("content");
-                EvaluationPo eval = new EvaluationPo(beEvaluatedId, evaluatorId, content);
-                evals.add(eval);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DbClose.close(conn, stmt, rs);
-        }
-
-        return evals;
-    }
-
 }

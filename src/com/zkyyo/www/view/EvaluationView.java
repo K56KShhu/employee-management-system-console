@@ -26,10 +26,10 @@ public class EvaluationView {
 
                 break;
             case 3:
-                EvaluationServe.addEvaluation(handler);
+//                EvaluationServe.addEvaluation(handler);
                 break;
             case 4:
-
+                EvaluationServe.deleteEvaluation(handler);
                 break;
             default:
                 System.out.println("bad number");
