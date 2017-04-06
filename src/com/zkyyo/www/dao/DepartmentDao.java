@@ -36,7 +36,139 @@ public class DepartmentDao {
         return isAdded;
     }
 
-    public static ArrayList<DepartmentPo> queryAllDepts() {
+    public static DepartmentPo selectDepartmentByDeptId(int searchedDeptId) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM department WHERE dept_id=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, searchedDeptId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int deptId = rs.getInt("dept_id");
+                String deptName = rs.getString("dept_name");
+                int deptPopulation = rs.getInt("dept_population");
+                String description = rs.getString("description");
+                java.sql.Date builtDate = rs.getDate("built_date");
+
+                return new DepartmentPo(deptId, deptName,
+                        deptPopulation, description, builtDate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return null;
+    }
+
+    public static DepartmentPo selectDepartmentByDeptName(String searchedDeptName) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT * FROM department WHERE dept_name=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, searchedDeptName);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int deptId = rs.getInt("dept_id");
+                String deptName = rs.getString("dept_name");
+                int deptPopulation = rs.getInt("dept_population");
+                String description = rs.getString("description");
+                java.sql.Date builtDate = rs.getDate("built_date");
+
+                return new DepartmentPo(deptId, deptName,
+                        deptPopulation, description, builtDate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return null;
+    }
+
+    public static DepartmentPo selectDepartmentByUserId(int userId) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT dept_id FROM employee WHERE user_id=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int searchedDeptId = rs.getInt("dept_id");
+                sql = "SELECT * FROM department WHERE dept_id=?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, searchedDeptId);
+                rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    int deptId = rs.getInt("dept_id");
+                    String deptName = rs.getString("dept_name");
+                    int deptPopulation = rs.getInt("dept_population");
+                    String description = rs.getString("description");
+                    java.sql.Date builtDate = rs.getDate("built_date");
+
+                    return new DepartmentPo(deptId, deptName,
+                            deptPopulation, description, builtDate);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return null;
+    }
+
+       public static DepartmentPo selectDepartmentByUserName(String userName) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = "SELECT dept_id FROM employee WHERE user_name=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, userName);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int searchedDeptId = rs.getInt("dept_id");
+                sql = "SELECT * FROM department WHERE dept_id=?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, searchedDeptId);
+                rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    int deptId = rs.getInt("dept_id");
+                    String deptName = rs.getString("dept_name");
+                    int deptPopulation = rs.getInt("dept_population");
+                    String description = rs.getString("description");
+                    java.sql.Date builtDate = rs.getDate("built_date");
+
+                    return new DepartmentPo(deptId, deptName,
+                            deptPopulation, description, builtDate);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return null;
+    }
+
+    public static ArrayList<DepartmentPo> selectDepartments() {
         Connection conn = DbConn.getConn();
         Statement stmt = null;
         ResultSet rs = null;

@@ -1,5 +1,6 @@
 package com.zkyyo.www.serve;
 
+import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.dao.EvaluationDao;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.po.EvaluationPo;
@@ -16,7 +17,7 @@ public class EvaluationServe {
     public static void addEvaluation(EmployeePo handler) {
         System.out.println("请输入被评价员工的员工号:");
         int beEvaluatedId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(beEvaluatedId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(beEvaluatedId);
         boolean isAdded = false;
 
         if (foundEp == null)
@@ -42,7 +43,7 @@ public class EvaluationServe {
     public static void querySendedEvaluation(EmployeePo handler) {
         System.out.println("请输入待查询员工的员工号:");
         int searchedId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(searchedId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(searchedId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
@@ -68,7 +69,7 @@ public class EvaluationServe {
     public static void queryReceivedEvaluation(EmployeePo handler) {
         System.out.println("请输入待查询员工的员工号:");
         int searchedId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(searchedId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(searchedId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
@@ -111,7 +112,7 @@ public class EvaluationServe {
     public static void updateSendedEvaluation(EmployeePo handler) {
         System.out.println("请输入发送评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(userId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
@@ -160,7 +161,7 @@ public class EvaluationServe {
     public static void updateReceivedEvaluation(EmployeePo handler) {
         System.out.println("请输入收到评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(userId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
@@ -209,7 +210,7 @@ public class EvaluationServe {
     public static void deleteSendedEvaluation(EmployeePo handler) {
         System.out.println("请输入发送评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(userId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
@@ -249,7 +250,7 @@ public class EvaluationServe {
     public static void deleteReceievdEvaluation(EmployeePo handler) {
         System.out.println("请输入收到评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(userId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");

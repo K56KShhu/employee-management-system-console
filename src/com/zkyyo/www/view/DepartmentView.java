@@ -43,7 +43,9 @@ public class DepartmentView {
     public static void departmentQueryWays(EmployeePo handler) {
         System.out.println("1. 通过部门号查询");
         System.out.println("2. 通过部门名字查询");
-        System.out.println("3. 显示所有部门");
+        System.out.println("3. 通过员工号查询");
+        System.out.println("4. 通过员工名查询");
+        System.out.println("5. 显示所有部门");
         System.out.println("请输入选择(0返回部门信息管理界面):");
 
         do {
@@ -53,13 +55,19 @@ public class DepartmentView {
                     departmentManage(handler);
                     break;
                 case 1:
-                    DepartmentServe.queryDeptInfo(1, handler);
+                    DepartmentServe.queryDepartment(1, handler);
                     break;
                 case 2:
-                    DepartmentServe.queryDeptInfo(2, handler);
+                    DepartmentServe.queryDepartment(2, handler);
                     break;
                 case 3:
-                    DepartmentServe.queryDeptInfo(3, handler);
+                    DepartmentServe.queryDepartment(3, handler);
+                    break;
+                case 4:
+                    DepartmentServe.queryDepartment(4, handler);
+                    break;
+                case 5:
+                    DepartmentServe.queryDepartment(5, handler);
                     break;
                 default:
                     System.out.println("bad number");

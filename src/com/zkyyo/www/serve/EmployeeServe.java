@@ -23,7 +23,7 @@ public class EmployeeServe {
             case 1:
                 System.out.println("请输入员工号");
                 int searchedUserId = ScannerUtil.scanNum();
-                foundEp = QueryUtil.queryEmployeeByUserId(searchedUserId);
+                foundEp = EmployeeDao.queryEmployeeByUserId(searchedUserId);
 
                 if (foundEp == null) {
                     System.out.println("查无此人");
@@ -43,7 +43,7 @@ public class EmployeeServe {
             case 2:
                 System.out.println("请输入员工名");
                 String searchedUserName = ScannerUtil.scanString(true);
-                foundEp = QueryUtil.queryEmployeeByUserName(searchedUserName);
+                foundEp = EmployeeDao.queryEmployeeByUserName(searchedUserName);
                 if (foundEp == null) {
                     System.out.println("查无此人");
                     EmployeeView.employeeManage(handler);
@@ -90,7 +90,7 @@ public class EmployeeServe {
         System.out.println("请输入需要需改的员工号");
         int updateUserId = ScannerUtil.scanNum();
 
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(updateUserId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(updateUserId);
         if (foundEp == null) {
             System.out.println("查无此人");
             EmployeeView.employeeManage(handler);
@@ -178,32 +178,25 @@ public class EmployeeServe {
         System.out.println("员工号(必选): ");
         int userId = ScannerUtil.scanNum();
         newEp.seteUserId(userId);
-
         //密码可能含有空格
         System.out.println("密码(必选): ");
         String pwd = ScannerUtil.scanPwd();
         newEp.setePassword(pwd);
-
         System.out.println("姓名(必选): ");
         String name = ScannerUtil.scanString(true);
         newEp.seteName(name);
-
         System.out.println("部门号(必选): ");
         int departmentId = ScannerUtil.scanNum();
         newEp.seteDeptId(departmentId);
-
         System.out.println("薪水(必选): ");
         double salary = ScannerUtil.scanSalary();
         newEp.seteSalary(salary);
-
         System.out.println("电话(可选): ");
         String mobile = ScannerUtil.scanString(false);
         newEp.seteMobile(mobile);
-
         System.out.println("邮箱(可选): ");
         String email = ScannerUtil.scanEmail();
         newEp.seteEmail(email);
-
         System.out.println("*就职时间(格式为xxxx-xx-xx): ");
         java.sql.Date sqlDate = ScannerUtil.scanSqlDate();
         newEp.seteEmployDate(sqlDate);
@@ -227,7 +220,7 @@ public class EmployeeServe {
         System.out.println("请输入待删除员工的员工号:");
         int deletedUserId = ScannerUtil.scanNum();
 
-        EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(deletedUserId);
+        EmployeePo foundEp = EmployeeDao.queryEmployeeByUserId(deletedUserId);
         if (foundEp == null) {
             System.out.println("查无此人");
             EmployeeView.employeeManage(handler);
