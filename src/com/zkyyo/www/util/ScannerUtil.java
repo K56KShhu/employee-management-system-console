@@ -8,16 +8,11 @@ import java.util.regex.*;
 
 public class ScannerUtil {
 
-    /**
-     * 验证输入薪水,薪水最小精度为0.5元
-     *
-     * @return 薪水
-     */
     public static double scanSalary() {
         Scanner in = new Scanner(System.in);
         Pattern p;
         Matcher m;
-        String regex = "^\\d*\\.?[05]?0*$";
+        String regex = "^\\d{1,13}\\.?[05]?0?$";
 
         do {
             String enterStr = in.nextLine();
@@ -28,14 +23,9 @@ public class ScannerUtil {
                 p = Pattern.compile(regex);
                 m = p.matcher(enterStr);
                 if (m.matches()) {
-                    //整数部分不能大于100亿
-                    if (enterStr.split("\\.")[0].length() > 12) {
-                        System.err.println("输入薪水超出范围,请重新输入:");
-                    } else {
-                        return Double.valueOf(enterStr);
-                    }
+                    return Double.valueOf(enterStr);
                 } else {
-                    System.err.println("检测到非法字符,请重新输入:");
+                    System.err.println("薪水输入有误,请重新输入:");
                 }
             }
         } while (true);
@@ -45,7 +35,7 @@ public class ScannerUtil {
         Scanner in = new Scanner(System.in);
         Pattern p;
         Matcher m;
-        String regex = "^\\d+$";
+        String regex = "^\\d{1,9}$";
 
         do {
             String enterStr = in.nextLine();
@@ -56,24 +46,14 @@ public class ScannerUtil {
                 p = Pattern.compile(regex);
                 m = p.matcher(enterStr);
                 if (m.matches()) {
-                    //有效数字最多9位
-                    if (enterStr.length() > 9) {
-                        System.err.println("输入数字超出范围,请重新输入:");
-                    } else {
-                        return Integer.valueOf(enterStr);
-                    }
+                    return Integer.valueOf(enterStr);
                 } else {
-                    System.err.println("检测到非法字符,请重新输入:");
+                    System.err.println("数字输入有误或超过范围,请重新输入:");
                 }
             }
         } while (true);
     }
 
-    /**
-     * 验证输入邮箱
-     *
-     * @return 符合要求的邮箱号
-     */
     public static String scanEmail() {
         Scanner in = new Scanner(System.in);
         Pattern p;
@@ -114,12 +94,6 @@ public class ScannerUtil {
             }
         } while (true);
     }
-
-    /**
-     * 验证输入日期yyyy-MM-dd
-     *
-     * @return 合法的日期
-     */
 
     public static Date scanSqlDate() {
         Scanner in = new Scanner(System.in);
@@ -171,6 +145,17 @@ public class ScannerUtil {
             } else {
                 return enterStr;
             }
+        } while (true);
+    }
+
+    /**
+     * 单元测试
+     * @param args 外部参数
+     */
+    public static void main(String[] args) {
+        do {
+            double salary = scanSalary();
+            System.out.println(salary);
         } while (true);
     }
 }

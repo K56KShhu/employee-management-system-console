@@ -55,13 +55,13 @@ public class EmployeeView {
                     employeeManage(handler);
                     break;
                 case 1:
-                    EmployeeServe.queryEmployeeInfo(1, handler);
+                    EmployeeServe.queryEmployee(1, handler);
                     break;
                 case 2:
-                    EmployeeServe.queryEmployeeInfo(2, handler);
+                    EmployeeServe.queryEmployee(2, handler);
                     break;
                 case 3:
-                    EmployeeServe.queryEmployeeInfo(3, handler);
+                    EmployeeServe.queryEmployees(handler);
                     break;
                 default:
                     System.err.println("无效选项,请重新输入:");

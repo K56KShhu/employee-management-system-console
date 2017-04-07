@@ -2,10 +2,9 @@ package com.zkyyo.www.serve;
 
 import com.zkyyo.www.dao.DepartmentDao;
 import com.zkyyo.www.dao.EmployeeDao;
-import com.zkyyo.www.dao.EvaluationDao;
 import com.zkyyo.www.po.DepartmentPo;
 import com.zkyyo.www.po.EmployeePo;
-import com.zkyyo.www.util.QueryUtil;
+import com.zkyyo.www.util.CreateIdUtil;
 import com.zkyyo.www.util.ScannerUtil;
 import com.zkyyo.www.view.DepartmentView;
 
@@ -18,7 +17,7 @@ public class DepartmentServe {
         System.out.println("开始建立新的部门,请输入必要的信息");
 
         System.out.println("部门号(必选):");
-        int newDeptId = ScannerUtil.scanNum();
+        int newDeptId = CreateIdUtil.creatDepartmentId();
         newDept.setDeptId(newDeptId);
         System.out.println("部门名(必选):");
         String newDeptName = ScannerUtil.scanString(true);

@@ -1,12 +1,14 @@
 package com.zkyyo.www.serve;
 
-import java.util.ArrayList;
-
+import com.zkyyo.www.dao.DepartmentDao;
 import com.zkyyo.www.dao.EmployeeDao;
+import com.zkyyo.www.po.DepartmentPo;
 import com.zkyyo.www.po.EmployeePo;
-import com.zkyyo.www.util.QueryUtil;
+import com.zkyyo.www.util.CreateIdUtil;
 import com.zkyyo.www.util.ScannerUtil;
 import com.zkyyo.www.view.EmployeeView;
+
+import java.util.ArrayList;
 
 public class EmployeeServe {
 
@@ -16,7 +18,7 @@ public class EmployeeServe {
      * @param type    查询的方式
      * @param handler 操作者
      */
-    public static void queryEmployeeInfo(int type, EmployeePo handler) {
+    public static void queryEmployee(int type, EmployeePo handler) {
         EmployeePo foundEp = null;
 
         switch (type) {
@@ -24,64 +26,38 @@ public class EmployeeServe {
                 System.out.println("请输入员工号");
                 int searchedUserId = ScannerUtil.scanNum();
                 foundEp = EmployeeDao.queryEmployeeByUserId(searchedUserId);
-
-                if (foundEp == null) {
-                    System.out.println("查无此人");
-                    EmployeeView.employeeManage(handler);
-                } else {
-                    System.out.println("信息如下");//
-                    System.out.println("员工号 = " + foundEp.geteUserId());
-                    System.out.println("姓名 = " + foundEp.geteName());
-                    System.out.println("部门号 = " + foundEp.geteDeptId());
-                    System.out.println("电话 = " + foundEp.geteMobile());
-                    System.out.println("薪水 = " + foundEp.geteSalary());
-                    System.out.println("邮箱 = " + foundEp.geteEmail());
-                    System.out.println("就职时间 = " + foundEp.geteEmployDate());
-                    EmployeeView.employeeManage(handler);
-                }
                 break;
             case 2:
                 System.out.println("请输入员工名");
                 String searchedUserName = ScannerUtil.scanString(true);
                 foundEp = EmployeeDao.queryEmployeeByUserName(searchedUserName);
-                if (foundEp == null) {
-                    System.out.println("查无此人");
-                    EmployeeView.employeeManage(handler);
-                } else {
-                    System.out.println("该员工信息如下");
-                    System.out.println("员工号 = " + foundEp.geteUserId());
-                    System.out.println("姓名 = " + foundEp.geteName());
-                    System.out.println("部门号 = " + foundEp.geteDeptId());
-                    System.out.println("电话 = " + foundEp.geteMobile());
-                    System.out.println("薪水 = " + foundEp.geteSalary());
-                    System.out.println("邮箱 = " + foundEp.geteEmail());
-                    System.out.println("就职时间 = " + foundEp.geteEmployDate());
-                    //回到员工个人信息管理界面
-                    EmployeeView.employeeManage(handler);
-                }
-                break;
-            case 3:
-                ArrayList<EmployeePo> eps;
-                eps = EmployeeDao.queryAllEmployees();
-                System.out.println("所有员工信息如下");//
-                for (EmployeePo ep : eps) {
-//                    System.out.println("员工号 = " + ep.geteUserId());
-//                    System.out.println("姓名 = " + ep.geteName());
-//                    System.out.println("部门号 = " + ep.geteDeptId());
-//                    System.out.println("电话 = " + ep.geteMobile());
-//                    System.out.println("薪水 = " + ep.geteSalary());
-//                    System.out.println("邮箱 = " + ep.geteEmail());
-//                    System.out.println("就职时间 = " + ep.geteEmployDate());
-//                    System.out.println();
-                    System.out.printf("员工号=%-8d 员工名=%-8s 部门号=%-8d 手机号=%-16s 薪水=%-16.2f 邮箱=%-24s 就职日期%-16s\n",
-                            ep.geteUserId(), ep.geteName(), ep.geteDeptId(), ep.geteMobile(),
-                            ep.geteSalary(), ep.geteEmail(), ep.geteEmployDate());
-                }
-                EmployeeView.employeeManage(handler);
                 break;
             default:
                 break;
+
         }
+        if (foundEp == null) {
+            System.out.println("查无此人");
+        } else {
+            System.out.println("信息如下");//
+            System.out.printf("员工号:%-12d 员工名:%-8s 部门号:%-6d 手机号:%-14s 薪水:%-16.2f 邮箱:%-30s 就职日期:%-16s\n",
+                    foundEp.geteUserId(), foundEp.geteName(), foundEp.geteDeptId(), foundEp.geteMobile(),
+                    foundEp.geteSalary(), foundEp.geteEmail(), foundEp.geteEmployDate());
+        }
+        EmployeeView.employeeManage(handler);
+    }
+
+    public static void queryEmployees(EmployeePo handler) {
+        ArrayList<EmployeePo> eps;
+        eps = EmployeeDao.queryAllEmployees();
+        System.out.println("所有员工信息如下");//
+        for (EmployeePo ep : eps) {
+            System.out.printf("员工号:%-12d 员工名:%-8s 部门号:%-6d 手机号:%-14s 薪水:%-16.2f 邮箱:%-30s 就职日期:%-16s\n",
+                    ep.geteUserId(), ep.geteName(), ep.geteDeptId(), ep.geteMobile(),
+                    ep.geteSalary(), ep.geteEmail(), ep.geteEmployDate());
+        }
+
+        EmployeeView.employeeManage(handler);
     }
 
     public static void updateEmployeeInfo(EmployeePo handler) {
@@ -96,14 +72,9 @@ public class EmployeeServe {
             EmployeeView.employeeManage(handler);
         } else {
             System.out.println("信息如下");//
-            System.out.println("员工号 = " + foundEp.geteUserId());
-            System.out.println("姓名 = " + foundEp.geteName());
-            System.out.println("部门号 = " + foundEp.geteDeptId());
-            System.out.println("电话 = " + foundEp.geteMobile());
-            System.out.println("薪水 = " + foundEp.geteSalary());
-            System.out.println("邮箱 = " + foundEp.geteEmail());
-            System.out.println("就职时间 = " + foundEp.geteEmployDate());
-            System.out.println();
+            System.out.printf("员工号:%-12d 员工名:%-8s 部门号:%-6d 手机号:%-14s 薪水:%-16.2f 邮箱:%-30s 就职日期:%-16s\n",
+                    foundEp.geteUserId(), foundEp.geteName(), foundEp.geteDeptId(), foundEp.geteMobile(),
+                    foundEp.geteSalary(), foundEp.geteEmail(), foundEp.geteEmployDate());
 
             System.out.println("1. 部门号");
             System.out.println("2. 电话");
@@ -175,35 +146,44 @@ public class EmployeeServe {
         boolean isUpdated = false;
         System.out.println("请输入待添加员工的信息:");
 
-        System.out.println("员工号(必选): ");
-        int userId = ScannerUtil.scanNum();
-        newEp.seteUserId(userId);
-        //密码可能含有空格
-        System.out.println("密码(必选): ");
-        String pwd = ScannerUtil.scanPwd();
-        newEp.setePassword(pwd);
+        int userId = CreateIdUtil.creatUserId();
         System.out.println("姓名(必选): ");
         String name = ScannerUtil.scanString(true);
-        newEp.seteName(name);
         System.out.println("部门号(必选): ");
-        int departmentId = ScannerUtil.scanNum();
-        newEp.seteDeptId(departmentId);
+        int departmentId;
+        do {
+            departmentId = ScannerUtil.scanNum();
+            DepartmentPo dept = DepartmentDao.selectDepartmentByDeptId(departmentId);
+            if (dept == null) {
+                System.err.println("所输入的部门不存在,请重新输入:");
+            } else {
+                break;
+            }
+        } while(true);
+        System.out.println("密码(必选): ");
+        String pwd = ScannerUtil.scanPwd();
         System.out.println("薪水(必选): ");
         double salary = ScannerUtil.scanSalary();
-        newEp.seteSalary(salary);
         System.out.println("电话(可选): ");
         String mobile = ScannerUtil.scanString(false);
-        newEp.seteMobile(mobile);
         System.out.println("邮箱(可选): ");
         String email = ScannerUtil.scanEmail();
-        newEp.seteEmail(email);
-        System.out.println("*就职时间(格式为xxxx-xx-xx): ");
+        System.out.println("*就职时间(格式为xxxx-xx-xx, 跳过则默认为当前日期): ");
         java.sql.Date sqlDate = ScannerUtil.scanSqlDate();
+
+        newEp.seteUserId(userId);
+        newEp.setePassword(pwd);
+        newEp.seteName(name);
+        newEp.seteDeptId(departmentId);
+        newEp.seteSalary(salary);
+        newEp.seteMobile(mobile);
+        newEp.seteEmail(email);
         newEp.seteEmployDate(sqlDate);
 
         isUpdated = EmployeeDao.addEmployee(newEp);
         if (isUpdated) {
             System.out.println("添加员工成功");
+            System.out.println("赶紧找张小纸条记下: " + newEp.geteName() + "的员工号为 " + newEp.geteUserId());
         } else {
             System.out.println("添加员工失败");
         }
@@ -226,13 +206,9 @@ public class EmployeeServe {
             EmployeeView.employeeManage(handler);
         } else {
             System.out.println("待删除员工信息如下");
-            System.out.println("员工号 = " + foundEp.geteUserId());
-            System.out.println("姓名 = " + foundEp.geteName());
-            System.out.println("部门号 = " + foundEp.geteDeptId());
-            System.out.println("电话 = " + foundEp.geteMobile());
-            System.out.println("薪水 = " + foundEp.geteSalary());
-            System.out.println("邮箱 = " + foundEp.geteEmail());
-            System.out.println("就职时间 = " + foundEp.geteEmployDate());
+            System.out.printf("员工号:%-12d 员工名:%-8s 部门号:%-6d 手机号:%-14s 薪水:%-16.2f 邮箱:%-30s 就职日期:%-16s\n",
+                    foundEp.geteUserId(), foundEp.geteName(), foundEp.geteDeptId(), foundEp.geteMobile(),
+                    foundEp.geteSalary(), foundEp.geteEmail(), foundEp.geteEmployDate());
 
             do {
                 System.out.println("是否删除该员工[y/n]:");
@@ -254,6 +230,45 @@ public class EmployeeServe {
                 }
             } while (true);
         }
+    }
+
+    /**
+     * 单元测试
+     *
+     * @param args 外部参数
+     */
+    public static void main(String[] args) {
+        System.out.println("--------测试--------");
+        System.out.println("0. exit");
+        System.out.println("1. 增加");
+        System.out.println("2. 删除");
+        System.out.println("3. 查询");
+        System.out.println("4. 修改");
+        System.out.println("choice: ");
+
+        do {
+            int choice = ScannerUtil.scanNum();
+            switch (choice) {
+                case 0:
+                    System.exit(1);
+                    break;
+                case 1:
+                    addEmployee(new EmployeePo());
+                    break;
+                case 2:
+                    deleteEmployee(new EmployeePo());
+                    break;
+                case 3:
+                    queryEmployees(new EmployeePo());
+                    break;
+                case 4:
+                    updateEmployeeInfo(new EmployeePo());
+                    break;
+                default:
+                    System.exit(1);
+                    break;
+            }
+        } while (true);
     }
 
 }
