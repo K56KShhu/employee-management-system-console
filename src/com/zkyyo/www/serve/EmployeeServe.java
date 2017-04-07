@@ -80,7 +80,7 @@ public class EmployeeServe {
                 EmployeeView.employeeManage(handler);
                 break;
             default:
-                System.out.println("bad number");
+                break;
         }
     }
 
@@ -151,7 +151,7 @@ public class EmployeeServe {
                             isUpdate = EmployeeDao.updateEmployee(updateUserId, 6, foundEp);
                             break;
                         default:
-                            System.out.println("bad number");
+                            System.err.println("无效选项,请重新输入:");
                             break;
                     }
                 }

@@ -43,7 +43,7 @@ public class MainView {
                     System.exit(-1);
                     break;
                 default:
-                    System.out.println("bad number");
+                    System.err.println("无效选项,请重新输入:");
                     break;
             }
         } while (true);
@@ -74,7 +74,7 @@ public class MainView {
                     EvaluationView.evaluationManage(handler);
                     break;
                 default:
-                    System.out.println("bad number");
+                    System.err.println("无效选项,请重新输入:");
                     break;
             }
         } while (true);

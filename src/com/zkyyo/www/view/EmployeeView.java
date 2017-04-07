@@ -36,7 +36,7 @@ public class EmployeeView {
                     EmployeeServe.deleteEmployee(handler);
                     break;
                 default:
-                    System.out.println("bad number");
+                    System.err.println("无效选项,请重新输入:");
                     break;
             }
         } while (true);
@@ -64,7 +64,7 @@ public class EmployeeView {
                     EmployeeServe.queryEmployeeInfo(3, handler);
                     break;
                 default:
-                    System.out.println("bad number");
+                    System.err.println("无效选项,请重新输入:");
                     break;
             }
         } while (true);

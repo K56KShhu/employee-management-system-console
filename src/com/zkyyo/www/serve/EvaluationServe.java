@@ -24,17 +24,24 @@ public class EvaluationServe {
             System.out.println("查无此员工");
         else {
             System.out.println("正在输入对 " + foundEp.geteName() + " 的评价:");
-            System.out.println("请输入评价等级:");
-            int starLevel = ScannerUtil.scanNum();
+            System.out.println("请输入评价等级(0-10的整数):");
+            int starLevel;
+            do {
+                starLevel = ScannerUtil.scanNum();
+                if (starLevel > 10) {
+                    System.err.println("评价等级超出范围,请重新输入:");
+                }
+            } while (starLevel > 10);
             System.out.println("请输入评价内容(可选):");
             String comment = ScannerUtil.scanString(false);
             EvaluationPo newEval = new EvaluationPo(beEvaluatedId, handler.geteUserId(), starLevel, comment);
             isAdded = EvaluationDao.addEvaluation(newEval);
 
-            if (isAdded)
+            if (isAdded) {
                 System.out.println("评价成功");
-            else
+            } else {
                 System.out.println("评价失败");
+            }
         }
 
         EvaluationView.evaluationManage(handler);
@@ -138,8 +145,14 @@ public class EvaluationServe {
                     } else {
                         EvaluationPo updatedEval = evals.get(updateIndex);
 
-                        System.out.println("请输入修改后的评价星级:");
-                        int starLevel = ScannerUtil.scanNum();
+                        int starLevel;
+                        do {
+                            System.out.println("请输入修改后的评价星级:");
+                            starLevel = ScannerUtil.scanNum();
+                            if (starLevel > 10) {
+                                System.err.println("评价等级超出范围,请重新输入");
+                            }
+                        } while (starLevel > 10);
                         System.out.println("请输入修改后的评价内容(可选):");
                         String comment = ScannerUtil.scanString(false);
                         updatedEval.setStarLevel(starLevel);
@@ -187,8 +200,14 @@ public class EvaluationServe {
                     } else {
                         EvaluationPo updatedEval = evals.get(updateIndex);
 
-                        System.out.println("请输入修改后的评价星级:");
-                        int starLevel = ScannerUtil.scanNum();
+                        int starLevel;
+                        do {
+                            System.out.println("请输入修改后的评价星级:");
+                            starLevel = ScannerUtil.scanNum();
+                            if (starLevel > 10) {
+                                System.err.println("评价等级超出范围,请重新输入");
+                            }
+                        } while (starLevel > 10);
                         System.out.println("请输入修改后的评价内容(可选):");
                         String comment = ScannerUtil.scanString(false);
                         updatedEval.setStarLevel(starLevel);

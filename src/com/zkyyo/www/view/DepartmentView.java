@@ -34,7 +34,7 @@ public class DepartmentView {
                     DepartmentServe.deleteDept(handler);
                     break;
                 default:
-                    System.out.println("bad number");
+                    System.err.println("无效选项,请重新输入:");
                     break;
             }
         } while (true);
@@ -70,7 +70,7 @@ public class DepartmentView {
                     DepartmentServe.queryDepartment(5, handler);
                     break;
                 default:
-                    System.out.println("bad number");
+                    System.err.println("无效选项,请重新输入:");
                     break;
             }
         } while (true);

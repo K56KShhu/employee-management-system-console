@@ -127,7 +127,7 @@ public class DepartmentServe {
                         isUpdate = DepartmentDao.updateDept(updatedDeptId, 3, foundDept);
                         break;
                     default:
-                        System.out.println("bad number");
+                        System.err.println("无效选项,请重新输入:");
                         break;
                 }
                 if (isUpdate) {
