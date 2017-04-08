@@ -11,10 +11,11 @@ public class EvaluationView {
         System.out.println("2. 修改评价");
         System.out.println("3. 增加评价");
         System.out.println("4. 删除评价");
+        System.out.println("0. 返回");
         System.out.println("***********************");
-        System.out.println("请输入相应选项(0返回功能选择界面):");
 
         do {
+            System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -33,7 +34,7 @@ public class EvaluationView {
                     deleteEvaluationSorts(handler);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
@@ -43,9 +44,11 @@ public class EvaluationView {
         System.out.println("1. 查询发出的评价");
         System.out.println("2. 查询获得的评价");
         System.out.println("3. 查询所有评价");
-        System.out.println("请选择查询的内容(0返回评价系统)");
+        System.out.println("0. 返回");
+        System.out.println("***********************");
 
         do {
+            System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -60,7 +63,7 @@ public class EvaluationView {
                 case 3:
                     EvaluationServe.queryEvaluations(handler);
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
@@ -69,9 +72,11 @@ public class EvaluationView {
     public static void updateEvaluationSorts(EmployeePo handler) {
         System.out.println("1. 修改发出的评价");
         System.out.println("2. 修改获得的评价");
-        System.out.println("请选择修改的内容(0返回评价系统):");
+        System.out.println("0. 返回");
+        System.out.println("***********************");
 
         do {
+            System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -84,7 +89,7 @@ public class EvaluationView {
                     EvaluationServe.updateReceivedEvaluation(handler);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
@@ -93,9 +98,11 @@ public class EvaluationView {
     public static void deleteEvaluationSorts(EmployeePo handler) {
         System.out.println("1. 删除发出的评价");
         System.out.println("2. 删除获得的评价");
-        System.out.println("请选择删除的内容(0返回评价系统):");
+        System.out.println("0. 返回");
+        System.out.println("***********************");
 
         do {
+            System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -108,7 +115,7 @@ public class EvaluationView {
                     EvaluationServe.deleteReceievdEvaluation(handler);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);

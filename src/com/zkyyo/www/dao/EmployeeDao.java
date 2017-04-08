@@ -1,9 +1,6 @@
 package com.zkyyo.www.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 import com.zkyyo.www.db.DbClose;
@@ -44,7 +41,8 @@ public class EmployeeDao {
         }
         return null;
     }
-        public static boolean addEmployee(EmployeePo newEp) {
+
+    public static boolean addEmployee(EmployeePo newEp) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdated = false;
@@ -97,7 +95,7 @@ public class EmployeeDao {
         return false;
     }
 
-    public static EmployeePo queryEmployeeByUserId(int searchedUserId) {
+    public static EmployeePo selectEmployeeByUserId(int searchedUserId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -128,47 +126,48 @@ public class EmployeeDao {
         return null;
     }
 
-    public static EmployeePo queryEmployeeByUserName(String searchedUserName) {
+    public static ArrayList<EmployeePo> selectEmployees() {
         Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Statement stmt = null;
         ResultSet rs = null;
+        ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
 
         try {
-            String sql = "SELECT * FROM employee WHERE user_name=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, searchedUserName);
-            rs = stmt.executeQuery();
+            String sql = "SELECT * FROM employee";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 int eUserId = rs.getInt("user_id");
                 String ePassword = rs.getString("user_pwd");
                 String eName = rs.getString("user_name");
-                int eDertId = rs.getInt("dept_id");
+                int eDeptId = rs.getInt("dept_id");
                 String eMobile = rs.getString("mobile");
                 double eSalary = rs.getDouble("salary");
                 String eEmail = rs.getString("email");
                 java.sql.Date eEmployDate = rs.getDate("employee_date");
 
-                return new EmployeePo(eUserId, ePassword, eName, eDertId,
-                        eMobile, eSalary, eEmail, eEmployDate);
+                eps.add(new EmployeePo(eUserId, ePassword, eName, eDeptId,
+                        eMobile, eSalary, eEmail, eEmployDate));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DbClose.close(conn, stmt, rs);
         }
-        return null;
+        return eps;
     }
 
-    public static ArrayList<EmployeePo> queryAllEmployees() {
+    public static ArrayList<EmployeePo> selectPossibleEmployeesByUserId(int userId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
 
         try {
-            String sql = "SELECT * FROM employee";
+            String sql = "SELECT * FROM employee WHERE user_id LIKE ?";
             stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + userId + "%");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -181,9 +180,41 @@ public class EmployeeDao {
                 String eEmail = rs.getString("email");
                 java.sql.Date eEmployDate = rs.getDate("employee_date");
 
-                EmployeePo ep = new EmployeePo(eUserId, ePassword, eName, eDeptId,
-                        eMobile, eSalary, eEmail, eEmployDate);
-                eps.add(ep);
+                eps.add(new EmployeePo(eUserId, ePassword, eName, eDeptId,
+                        eMobile, eSalary, eEmail, eEmployDate));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return eps;
+    }
+
+    public static ArrayList<EmployeePo> selectPossibleEmployeesByUserName(String userName) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
+
+        try {
+            String sql = "SELECT * FROM employee WHERE user_name LIKE ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + userName + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int eUserId = rs.getInt("user_id");
+                String ePassword = rs.getString("user_pwd");
+                String eName = rs.getString("user_name");
+                int eDeptId = rs.getInt("dept_id");
+                String eMobile = rs.getString("mobile");
+                double eSalary = rs.getDouble("salary");
+                String eEmail = rs.getString("email");
+                java.sql.Date eEmployDate = rs.getDate("employee_date");
+
+                eps.add(new EmployeePo(eUserId, ePassword, eName, eDeptId,
+                        eMobile, eSalary, eEmail, eEmployDate));
             }
         } catch (SQLException e) {
             e.printStackTrace();

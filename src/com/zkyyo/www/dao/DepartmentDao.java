@@ -3,6 +3,7 @@ package com.zkyyo.www.dao;
 import com.zkyyo.www.db.DbClose;
 import com.zkyyo.www.db.DbConn;
 import com.zkyyo.www.po.DepartmentPo;
+import com.zkyyo.www.po.EmployeePo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -131,7 +132,7 @@ public class DepartmentDao {
         return null;
     }
 
-       public static DepartmentPo selectDepartmentByUserName(String userName) {
+    public static DepartmentPo selectDepartmentByUserName(String userName) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -166,6 +167,64 @@ public class DepartmentDao {
             DbClose.close(conn, stmt, rs);
         }
         return null;
+    }
+
+    public static ArrayList<DepartmentPo> selectPossibleDepartmentsByDeptId(int searchedDeptId) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
+
+        try {
+            String sql = "SELECT * FROM department WHERE dept_id LIKE ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + searchedDeptId + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int deptId = rs.getInt("dept_id");
+                String deptName = rs.getString("dept_name");
+                int deptPopulation = rs.getInt("dept_population");
+                String description = rs.getString("description");
+                java.sql.Date builtDate = rs.getDate("built_date");
+
+                depts.add(new DepartmentPo(deptId, deptName, deptPopulation, description, builtDate));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return depts;
+    }
+
+    public static ArrayList<DepartmentPo> selectPossibleDepartmentByDeptName(String searcheDdeptName) {
+        Connection conn = DbConn.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
+
+        try {
+            String sql = "SELECT * FROM department WHERE dept_name LIKE ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + searcheDdeptName + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int deptId = rs.getInt("dept_id");
+                String deptName = rs.getString("dept_name");
+                int deptPopulation = rs.getInt("dept_population");
+                String description = rs.getString("description");
+                java.sql.Date builtDate = rs.getDate("built_date");
+
+                depts.add(new DepartmentPo(deptId, deptName, deptPopulation, description, builtDate));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbClose.close(conn, stmt, rs);
+        }
+        return depts;
     }
 
     public static ArrayList<DepartmentPo> selectDepartments() {

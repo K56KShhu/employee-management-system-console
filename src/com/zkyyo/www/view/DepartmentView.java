@@ -12,10 +12,11 @@ public class DepartmentView {
         System.out.println("2. 修改部门");
         System.out.println("3. 增加部门");
         System.out.println("4. 删除部门");
+        System.out.println("5. 返回");
         System.out.println("**************************");
-        System.out.println("请输入选项(0返回功能选择界面):");
 
         do {
+            System.out.print(handler.geteName() + "@" + "department-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -34,21 +35,26 @@ public class DepartmentView {
                     DepartmentServe.deleteDept(handler);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
     }
 
     public static void departmentQueryWays(EmployeePo handler) {
-        System.out.println("1. 通过部门号查询");
-        System.out.println("2. 通过部门名字查询");
-        System.out.println("3. 通过员工号查询");
-        System.out.println("4. 通过员工名查询");
-        System.out.println("5. 显示所有部门");
-        System.out.println("请输入选择(0返回部门信息管理界面):");
+        System.out.println("1. 精确查询 > 通过部门号");
+        System.out.println("-  --------------------");
+        System.out.println("2. 模糊查询 > 通过部门号");
+        System.out.println("3. 模糊查询 > 通过部门名字");
+        System.out.println("4. 模糊查询 > 通过员工号");
+        System.out.println("5. 模糊查询 > 铜鼓员工名字");
+        System.out.println("-  --------------------");
+        System.out.println("6. 显示所有部门");
+        System.out.println("0. 返回");
+        System.out.println("**************************");
 
         do {
+            System.out.print(handler.geteName() + "@" + "department-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -69,8 +75,11 @@ public class DepartmentView {
                 case 5:
                     DepartmentServe.queryDepartment(5, handler);
                     break;
+                case 6:
+                    DepartmentServe.queryDepartment(6, handler);
+                    break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);

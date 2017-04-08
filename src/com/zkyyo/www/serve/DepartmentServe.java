@@ -5,6 +5,7 @@ import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.DepartmentPo;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.util.CreateIdUtil;
+import com.zkyyo.www.util.QueryUtil;
 import com.zkyyo.www.util.ScannerUtil;
 import com.zkyyo.www.view.DepartmentView;
 
@@ -81,7 +82,7 @@ public class DepartmentServe {
 
         System.out.println("请输入需要修改的部门号:");
         int updatedDeptId = ScannerUtil.scanNum();
-        DepartmentPo foundDept = DepartmentDao.selectDepartmentByUserId(updatedDeptId);
+        DepartmentPo foundDept = DepartmentDao.selectDepartmentByDeptId(updatedDeptId);
         if (foundDept == null) {
             System.out.println("查无此部门");
         } else {
@@ -126,7 +127,7 @@ public class DepartmentServe {
                         isUpdate = DepartmentDao.updateDept(updatedDeptId, 3, foundDept);
                         break;
                     default:
-                        System.err.println("无效选项,请重新输入:");
+                        System.out.println("无效选项,请重新输入:");
                         break;
                 }
                 if (isUpdate) {
@@ -140,94 +141,61 @@ public class DepartmentServe {
     }
 
     public static void queryDepartment(int type, EmployeePo handler) {
+        int possibleUserId;
+        int possibleDeptId;
+        int accurateDeptId;
+        String possibleUserName;
+        String possibleDeptName;
         EmployeePo foundEpy = null;
         DepartmentPo foundDept = null;
 
         switch (type) {
             case 1:
-                System.out.println("请输入需要查询的部门号:");
-                int deptId = ScannerUtil.scanNum();
-                foundDept = DepartmentDao.selectDepartmentByDeptId(deptId);
-
-                if (foundDept == null) {
-                    System.out.println("查无此部门");
-                } else {
-                    System.out.println("信息如下");
-                    System.out.println("部门号: " + foundDept.getDeptId());
-                    System.out.println("部门名: " + foundDept.getDeptName());
-                    System.out.println("部门人数: " + foundDept.getDeptPopulation());
-                    System.out.println("部门描述: " + foundDept.getDeptDesc());
-                    System.out.println("建立时间: " + foundDept.getBuiltDate());
-                }
+                System.out.println("请输入需要精确查询的部门号:");
+                accurateDeptId = ScannerUtil.scanNum();
+                QueryUtil.queryDepartmentByDeptrId(accurateDeptId);
                 break;
             case 2:
-                System.out.println("请输入需要查询的部门名:");
-                String deptName = ScannerUtil.scanString(true);
-                foundDept = DepartmentDao.selectDepartmentByDeptName(deptName);
-
-                if (foundDept == null) {
-                    System.out.println("查无此部门");
-                } else {
-                    System.out.println("信息如下");
-                    System.out.println("部门号: " + foundDept.getDeptId());
-                    System.out.println("部门名: " + foundDept.getDeptName());
-                    System.out.println("部门人数: " + foundDept.getDeptPopulation());
-                    System.out.println("部门描述: " + foundDept.getDeptDesc());
-                    System.out.println("建立时间: " + foundDept.getBuiltDate());
+                System.out.println("请输入需要模糊查询的部门号");
+                possibleDeptId = ScannerUtil.scanNum();
+                foundDept = QueryUtil.fuzzyQueryDepartment(possibleDeptId);
+                if (foundDept != null) {
+                    QueryUtil.queryDepartmentByDeptrId(foundDept.getDeptId());
                 }
                 break;
             case 3:
-                System.out.println("请输入该员工的员工号:");
-                int userId = ScannerUtil.scanNum();
-                foundEpy = EmployeeDao.queryEmployeeByUserId(userId);
-                if (foundEpy == null) {
-                    System.out.println("查无此员工");
-                } else {
-                    foundDept = DepartmentDao.selectDepartmentByUserId(userId);
-                    if (foundDept == null) {
-                        System.out.println("查无此部门");
-                    } else {
-                        System.out.println("信息如下");
-                        System.out.println("部门号: " + foundDept.getDeptId());
-                        System.out.println("部门名: " + foundDept.getDeptName());
-                        System.out.println("部门人数: " + foundDept.getDeptPopulation());
-                        System.out.println("部门描述: " + foundDept.getDeptDesc());
-                        System.out.println("建立时间: " + foundDept.getBuiltDate());
-                    }
+                System.out.println("请输入需要模糊查询的部门名");
+                possibleDeptName = ScannerUtil.scanString(true);
+                foundDept = QueryUtil.fuzzyQueryDepartment(possibleDeptName);
+                if (foundDept != null) {
+                    QueryUtil.queryDepartmentByDeptrId(foundDept.getDeptId());
                 }
                 break;
             case 4:
-                System.out.println("请输入该员工的名字:");
-                String userName = ScannerUtil.scanString(true);
-                foundEpy = EmployeeDao.queryEmployeeByUserName(userName);
-                if (foundEpy == null) {
-                    System.out.println("查无此员工");
-                } else {
-                    foundDept = DepartmentDao.selectDepartmentByUserName(userName);
-                    if (foundDept == null) {
-                        System.out.println("查无此部门");
-                    } else {
-                        System.out.println("信息如下");
-                        System.out.println("部门号: " + foundDept.getDeptId());
-                        System.out.println("部门名: " + foundDept.getDeptName());
-                        System.out.println("部门人数: " + foundDept.getDeptPopulation());
-                        System.out.println("部门描述: " + foundDept.getDeptDesc());
-                        System.out.println("建立时间: " + foundDept.getBuiltDate());
-                    }
+                System.out.println("请输入需要模糊查询的员工号");
+                possibleUserId = ScannerUtil.scanNum();
+                foundEpy = QueryUtil.fuzzyQueryEmployee(possibleUserId);
+                if (foundEpy != null) {
+                    QueryUtil.queryDepartmentByDeptrId(foundEpy.geteDeptId());
                 }
                 break;
             case 5:
+                System.out.println("请输入需要模糊查询的员工名");
+                possibleUserName = ScannerUtil.scanString(true);
+                foundEpy = QueryUtil.fuzzyQueryEmployee(possibleUserName);
+                if (foundEpy != null) {
+                    QueryUtil.queryDepartmentByDeptrId(foundEpy.geteDeptId());
+                }
+                break;
+            case 6:
                 ArrayList<DepartmentPo> depts = DepartmentDao.selectDepartments();
                 if (depts.size() == 0) {
                     System.out.println("找不到任何部门");
                 } else {
                     for (DepartmentPo dept : depts) {
-                        System.out.println("部门号: " + dept.getDeptId());
-                        System.out.println("部门名: " + dept.getDeptName());
-                        System.out.println("部门人数: " + dept.getDeptPopulation());
-                        System.out.println("部门描述: " + dept.getDeptDesc());
-                        System.out.println("建立时间: " + dept.getBuiltDate());
-                        System.out.println();
+                        System.out.printf("部门号:%-6d 部门名:%-12s 人数:%-6d 建立时间:%-16s 部门描述:%s\n",
+                                dept.getDeptId(), dept.getDeptName(), dept.getDeptPopulation(),
+                                dept.getBuiltDate(), dept.getDeptDesc());
                     }
                 }
                 break;

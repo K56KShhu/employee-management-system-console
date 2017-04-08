@@ -47,14 +47,14 @@ public class CreateIdUtil {
             do {
                 int newDeptId = ScannerUtil.scanNum();
                 if (newDeptId >= 1000) {
-                    System.err.println("部门号超出范围,请重新输入");
+                    System.out.println("部门号超出范围,请重新输入");
                 } else {
                     String sql = "SELECT * FROM department WHERE dept_id=?";
                     stmt = conn.prepareStatement(sql);
                     stmt.setInt(1, newDeptId);
                     rs = stmt.executeQuery();
                     if (rs.next()) {
-                        System.err.println("该部门号已经被注册,请重新输入");
+                        System.out.println("该部门号已经被注册,请重新输入");
                     } else {
                         return newDeptId;
                     }

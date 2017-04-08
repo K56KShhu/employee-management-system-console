@@ -14,15 +14,15 @@ public class MainView {
         System.out.println("1. 登录");
         System.out.println("2. 退出");
         System.out.println("***********************************");
-        System.out.println("请选择: ");
 
         do {
+            System.out.print("null@manage-system:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 1:
-                    System.out.println("请输入员工号: ");
+                    System.out.print("Enter Account: ");
                     int enterUserId = ScannerUtil.scanNum();
-                    System.out.println("请输入密码:  ");
+                    System.out.print("Enter Password: ");
                     String enterPassword = ScannerUtil.scanPwd();
 
                     EmployeePo ep = EmployeeDao.loginCheck(enterUserId);
@@ -39,11 +39,11 @@ public class MainView {
                     }
                     break;
                 case 2:
-                    System.out.println("bye");
+                    System.out.println("Bye");
                     System.exit(-1);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
@@ -51,14 +51,14 @@ public class MainView {
 
     public static void functionsChoice(EmployeePo handler) {
         System.out.println("********功能********");
-        System.out.println("1. 员工个人信息管理");
-        System.out.println("2. 部门信息管理");
+        System.out.println("1. 员工管理");
+        System.out.println("2. 部门管理");
         System.out.println("3. 评价系统");
+        System.out.println("0. 返回");
         System.out.println("*******************");
-        System.out.println("你好, " + handler.geteName());
-        System.out.println("请选择(0回到登录界面): ");
 
         do {
+            System.out.print(handler.geteName() + "@" + "manage-system:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -74,7 +74,7 @@ public class MainView {
                     EvaluationView.evaluationManage(handler);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);

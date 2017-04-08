@@ -10,14 +10,15 @@ import com.zkyyo.www.util.ScannerUtil;
 public class EmployeeView {
     public static void employeeManage(EmployeePo handler) {
         System.out.println("********员工个人信息管理********");
-        System.out.println("1. 查询员工信息");   //通过员工号,员工名 精确
-        System.out.println("2. 修改员工信息");   //通过员工号, 精确
-        System.out.println("3. 添加员工");      //通过员工号, 精确
-        System.out.println("4. 删除员工");      //通过员工号, 精确
+        System.out.println("1. 查询员工信息");
+        System.out.println("2. 修改员工信息");
+        System.out.println("3. 添加员工");
+        System.out.println("4. 删除员工");
+        System.out.println("0. 返回");
         System.out.println("******************************");
-        System.out.println("请选择(0回到功能选择界面)");
 
         do {
+            System.out.print(handler.geteName() + "@" + "employee-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -36,19 +37,24 @@ public class EmployeeView {
                     EmployeeServe.deleteEmployee(handler);
                     break;
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
     }
 
     public static void employeeQueryWays(EmployeePo handler) {
-        System.out.println("1. 通过员工号查询");
-        System.out.println("2. 通过员工名查询");
-        System.out.println("3. 显示所有员工");
-        System.out.println("请输入查询的方式(0返回员工个人信息管理界面): ");
+        System.out.println("1. 精确查询 > 通过员工号");
+        System.out.println("-  --------------------");
+        System.out.println("2. 模糊搜索 > 通过员工号");
+        System.out.println("3. 模糊搜索 > 通过员工名字");
+        System.out.println("-  --------------------");
+        System.out.println("4. 显示所有员工");
+        System.out.println("5. 返回");
+        System.out.println("******************************");
 
         do {
+            System.out.print(handler.geteName() + "@" + "employee-manage:~$ ");
             int choice = ScannerUtil.scanNum();
             switch (choice) {
                 case 0:
@@ -61,10 +67,12 @@ public class EmployeeView {
                     EmployeeServe.queryEmployee(2, handler);
                     break;
                 case 3:
-                    EmployeeServe.queryEmployees(handler);
+                    EmployeeServe.queryEmployee(3, handler);
                     break;
+                case 4:
+                    EmployeeServe.queryEmployee(4, handler);
                 default:
-                    System.err.println("无效选项,请重新输入:");
+                    System.out.println(choice + ": command not found");
                     break;
             }
         } while (true);
