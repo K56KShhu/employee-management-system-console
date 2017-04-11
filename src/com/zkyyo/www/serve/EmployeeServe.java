@@ -12,12 +12,27 @@ import com.zkyyo.www.view.EmployeeView;
 import java.util.ArrayList;
 
 public class EmployeeServe {
+    private static volatile EmployeeServe INSTANCE = null;
 
-    public static void queryEmployee(int type, EmployeePo handler) {
+    private EmployeeServe() {}
+
+    public static EmployeeServe getInstance() {
+        if (INSTANCE == null) {
+            synchronized (EmployeeServe.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new EmployeeServe();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public void queryEmployee(int type, EmployeePo handler) {
         int possibleUserId;
         int accurateUserId;
         String possibleUserName;
         EmployeePo foundEp = null;
+        EmployeeDao epd = EmployeeDao.getInstance();
 
         switch (type) {
             case 1:
@@ -43,7 +58,7 @@ public class EmployeeServe {
                 break;
             case 4:
                 ArrayList<EmployeePo> eps;
-                eps = EmployeeDao.selectEmployees();
+                eps = epd.selectEmployees();
                 System.out.println("所有员工信息如下");//
                 for (EmployeePo ep : eps) {
                     System.out.printf("员工号:%-12d 员工名:%-8s 部门号:%-6d 手机号:%-14s 薪水:%-16.2f 邮箱:%-30s 就职日期:%-16s\n",
@@ -55,11 +70,12 @@ public class EmployeeServe {
         EmployeeView.employeeManage(handler);
     }
 
-    public static void updateEmployeeInfo(EmployeePo handler) {
+    public void updateEmployeeInfo(EmployeePo handler) {
         boolean isUpdate = false;
         System.out.println("请输入需要需改的员工号");
         int updateUserId = ScannerUtil.scanNum();
         EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(updateUserId);
+        EmployeeDao epd = EmployeeDao.getInstance();
 
         if (foundEp != null) {
             do {
@@ -72,32 +88,32 @@ public class EmployeeServe {
                         case 1:
                             int newDepartmentId = ScannerUtil.scanNum();
                             foundEp.seteDeptId(newDepartmentId);
-                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 1, foundEp);
+                            isUpdate = epd.updateEmployee(updateUserId, 1, foundEp);
                             break;
                         case 2:
                             String newMobile = ScannerUtil.scanString(false);
                             foundEp.seteMobile(newMobile);
-                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 2, foundEp);
+                            isUpdate = epd.updateEmployee(updateUserId, 2, foundEp);
                             break;
                         case 3:
                             double newSalary = ScannerUtil.scanSalary();
                             foundEp.seteSalary(newSalary);
-                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 3, foundEp);
+                            isUpdate = epd.updateEmployee(updateUserId, 3, foundEp);
                             break;
                         case 4:
                             String newEmail = ScannerUtil.scanEmail();
                             foundEp.seteEmail(newEmail);
-                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 4, foundEp);
+                            isUpdate = epd.updateEmployee(updateUserId, 4, foundEp);
                             break;
                         case 5:
                             java.sql.Date newEmployDate = ScannerUtil.scanSqlDate();
                             foundEp.seteEmployDate(newEmployDate);
-                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 5, foundEp);
+                            isUpdate = epd.updateEmployee(updateUserId, 5, foundEp);
                             break;
                         case 6:
                             String newPwd = ScannerUtil.scanPwd();
                             foundEp.setePassword(newPwd);
-                            isUpdate = EmployeeDao.updateEmployee(updateUserId, 6, foundEp);
+                            isUpdate = epd.updateEmployee(updateUserId, 6, foundEp);
                             break;
                         default:
                             System.out.println("无效选项,请重新输入:");
@@ -114,7 +130,9 @@ public class EmployeeServe {
         }
     }
 
-    public static void addEmployee(EmployeePo handler) {
+    public void addEmployee(EmployeePo handler) {
+        DepartmentDao dd = DepartmentDao.getInstance();
+        EmployeeDao epd = EmployeeDao.getInstance();
         EmployeePo newEp = new EmployeePo();
         boolean isUpdated = false;
         System.out.println("请输入待添加员工的信息:");
@@ -126,7 +144,7 @@ public class EmployeeServe {
         int departmentId;
         do {
             departmentId = ScannerUtil.scanNum();
-            DepartmentPo dept = DepartmentDao.selectDepartmentByDeptId(departmentId);
+            DepartmentPo dept = dd.selectDepartmentByDeptId(departmentId);
             if (dept == null) {
                 System.out.println("所输入的部门不存在,请重新输入:");
             } else {
@@ -153,7 +171,7 @@ public class EmployeeServe {
         newEp.seteEmail(email);
         newEp.seteEmployDate(sqlDate);
 
-        isUpdated = EmployeeDao.addEmployee(newEp);
+        isUpdated = epd.addEmployee(newEp);
         if (isUpdated) {
             System.out.println("添加员工成功");
             System.out.println("赶紧找张小纸条记下: " + newEp.geteName() + "的员工号为 " + newEp.geteUserId());
@@ -164,7 +182,8 @@ public class EmployeeServe {
         EmployeeView.employeeManage(handler);
     }
 
-    public static void deleteEmployee(EmployeePo handler) {
+    public void deleteEmployee(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
         System.out.println("请输入待删除员工的员工号:");
         int deletedUserId = ScannerUtil.scanNum();
         EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(deletedUserId);
@@ -176,7 +195,7 @@ public class EmployeeServe {
                 String firstLetter = choice.substring(0, 1);
 
                 if (firstLetter.equalsIgnoreCase("y")) {
-                    boolean isDeleted = EmployeeDao.deleteEmployee(deletedUserId);
+                    boolean isDeleted = epd.deleteEmployee(deletedUserId);
                     if (isDeleted) {
                         System.out.println("你已成功删除该员工");
                     } else {
@@ -192,44 +211,44 @@ public class EmployeeServe {
         }
     }
 
-
-    /**
-     * 单元测试
-     *
-     * @param args 外部参数
-     */
-    public static void main(String[] args) {
-        System.out.println("--------测试--------");
-        System.out.println("0. exit");
-        System.out.println("1. 增加");
-        System.out.println("2. 删除");
-        System.out.println("3. 查询");
-        System.out.println("4. 修改");
-        System.out.println("choice: ");
-
-        do {
-            int choice = ScannerUtil.scanNum();
-            switch (choice) {
-                case 0:
-                    System.exit(1);
-                    break;
-                case 1:
-                    addEmployee(new EmployeePo());
-                    break;
-                case 2:
-                    deleteEmployee(new EmployeePo());
-                    break;
-                case 3:
-                    queryEmployee(4, new EmployeePo());
-                    break;
-                case 4:
-                    updateEmployeeInfo(new EmployeePo());
-                    break;
-                default:
-                    System.exit(1);
-                    break;
-            }
-        } while (true);
-    }
+//
+//    /**
+//     * 单元测试
+//     *
+//     * @param args 外部参数
+//     */
+//    public static void main(String[] args) {
+//        System.out.println("--------测试--------");
+//        System.out.println("0. exit");
+//        System.out.println("1. 增加");
+//        System.out.println("2. 删除");
+//        System.out.println("3. 查询");
+//        System.out.println("4. 修改");
+//        System.out.println("choice: ");
+//
+//        do {
+//            int choice = ScannerUtil.scanNum();
+//            switch (choice) {
+//                case 0:
+//                    System.exit(1);
+//                    break;
+//                case 1:
+//                    addEmployee(new EmployeePo());
+//                    break;
+//                case 2:
+//                    deleteEmployee(new EmployeePo());
+//                    break;
+//                case 3:
+//                    queryEmployee(4, new EmployeePo());
+//                    break;
+//                case 4:
+//                    updateEmployeeInfo(new EmployeePo());
+//                    break;
+//                default:
+//                    System.exit(1);
+//                    break;
+//            }
+//        } while (true);
+//    }
 
 }

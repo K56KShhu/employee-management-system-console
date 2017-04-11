@@ -12,7 +12,23 @@ import com.zkyyo.www.view.DepartmentView;
 import java.util.ArrayList;
 
 public class DepartmentServe {
-    public static void addDept(EmployeePo handler) {
+    private static volatile DepartmentServe INSTANCE = null;
+
+    private DepartmentServe() {}
+
+    public static DepartmentServe getInstance() {
+        if (INSTANCE == null) {
+            synchronized (DepartmentServe.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new DepartmentServe();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public void addDept(EmployeePo handler) {
+        DepartmentDao dd = DepartmentDao.getInstance();
         DepartmentPo newDept = new DepartmentPo();
         boolean isAdded = false;
         System.out.println("开始建立新的部门,请输入必要的信息");
@@ -30,7 +46,7 @@ public class DepartmentServe {
         java.sql.Date newBuiltDate = ScannerUtil.scanSqlDate();
         newDept.setBuiltDate(newBuiltDate);
 
-        isAdded = DepartmentDao.addDepartment(newDept);
+        isAdded = dd.addDepartment(newDept);
         if (isAdded) {
             System.out.println("建立部门成功");
         } else {
@@ -39,11 +55,12 @@ public class DepartmentServe {
         DepartmentView.departmentManage(handler);
     }
 
-    public static void deleteDept(EmployeePo handler) {
+    public void deleteDept(EmployeePo handler) {
         System.out.println("请输入需要删除的部门Id");
         int deletedDeptId = ScannerUtil.scanNum();
 
-        DepartmentPo deletedDept = DepartmentDao.selectDepartmentByDeptId(deletedDeptId);
+        DepartmentDao dd = DepartmentDao.getInstance();
+        DepartmentPo deletedDept = dd.selectDepartmentByDeptId(deletedDeptId);
         if (deletedDept == null) {
             System.out.println("该部门不存在");
             DepartmentView.departmentManage(handler);
@@ -61,7 +78,7 @@ public class DepartmentServe {
                 String firstLetter = choice.substring(0, 1);
 
                 if (firstLetter.equalsIgnoreCase("y")) {
-                    boolean isDeleted = DepartmentDao.deleteDept(deletedDeptId);
+                    boolean isDeleted = dd.deleteDept(deletedDeptId);
                     if (isDeleted) {
                         System.out.println("你已成功删除该部门");
                     } else {
@@ -77,12 +94,13 @@ public class DepartmentServe {
         }
     }
 
-    public static void updateDept(EmployeePo handler) {
+    public void updateDept(EmployeePo handler) {
+        DepartmentDao dd = DepartmentDao.getInstance();
         boolean isUpdate = false;
 
         System.out.println("请输入需要修改的部门号:");
         int updatedDeptId = ScannerUtil.scanNum();
-        DepartmentPo foundDept = DepartmentDao.selectDepartmentByDeptId(updatedDeptId);
+        DepartmentPo foundDept = dd.selectDepartmentByDeptId(updatedDeptId);
         if (foundDept == null) {
             System.out.println("查无此部门");
         } else {
@@ -110,21 +128,21 @@ public class DepartmentServe {
                         System.out.println("请输入修改后的部门名(必选):");
                         String newDeptName = ScannerUtil.scanString(true);
                         foundDept.setDeptName(newDeptName);
-                        isUpdate = DepartmentDao.updateDept(updatedDeptId, 1, foundDept);
+                        isUpdate = dd.updateDept(updatedDeptId, 1, foundDept);
                         break;
                     //部门描述
                     case 2:
                         System.out.println("请输入修改后的部门描述(可选):");
                         String newDeptDesc = ScannerUtil.scanString(false);
                         foundDept.setDeptDesc(newDeptDesc);
-                        isUpdate = DepartmentDao.updateDept(updatedDeptId, 2, foundDept);
+                        isUpdate = dd.updateDept(updatedDeptId, 2, foundDept);
                         break;
                     //建立时间
                     case 3:
                         System.out.println("请输入修改后的部门建立时间(选择跳过即设置为当前时期):");
                         java.sql.Date newBuiltDate = ScannerUtil.scanSqlDate();
                         foundDept.setBuiltDate(newBuiltDate);
-                        isUpdate = DepartmentDao.updateDept(updatedDeptId, 3, foundDept);
+                        isUpdate = dd.updateDept(updatedDeptId, 3, foundDept);
                         break;
                     default:
                         System.out.println("无效选项,请重新输入:");
@@ -140,7 +158,7 @@ public class DepartmentServe {
         }
     }
 
-    public static void queryDepartment(int type, EmployeePo handler) {
+    public void queryDepartment(int type, EmployeePo handler) {
         int possibleUserId;
         int possibleDeptId;
         int accurateDeptId;
@@ -148,6 +166,7 @@ public class DepartmentServe {
         String possibleDeptName;
         EmployeePo foundEpy = null;
         DepartmentPo foundDept = null;
+        DepartmentDao dd = DepartmentDao.getInstance();
 
         switch (type) {
             case 1:
@@ -188,7 +207,7 @@ public class DepartmentServe {
                 }
                 break;
             case 6:
-                ArrayList<DepartmentPo> depts = DepartmentDao.selectDepartments();
+                ArrayList<DepartmentPo> depts = dd.selectDepartments();
                 if (depts.size() == 0) {
                     System.out.println("找不到任何部门");
                 } else {

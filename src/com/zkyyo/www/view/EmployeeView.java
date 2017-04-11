@@ -1,5 +1,6 @@
 package com.zkyyo.www.view;
 
+import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.serve.EmployeeServe;
 import com.zkyyo.www.util.ScannerUtil;
@@ -16,6 +17,7 @@ public class EmployeeView {
         System.out.println("4. 删除员工");
         System.out.println("0. 返回");
         System.out.println("******************************");
+        EmployeeServe epys = EmployeeServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "employee-manage:~$ ");
@@ -28,13 +30,13 @@ public class EmployeeView {
                     employeeQueryWays(handler);
                     break;
                 case 2:
-                    EmployeeServe.updateEmployeeInfo(handler);
+                    epys.updateEmployeeInfo(handler);
                     break;
                 case 3:
-                    EmployeeServe.addEmployee(handler);
+                    epys.addEmployee(handler);
                     break;
                 case 4:
-                    EmployeeServe.deleteEmployee(handler);
+                    epys.deleteEmployee(handler);
                     break;
                 default:
                     System.out.println(choice + ": command not found");
@@ -52,6 +54,7 @@ public class EmployeeView {
         System.out.println("4. 显示所有员工");
         System.out.println("5. 返回");
         System.out.println("******************************");
+        EmployeeServe epys = EmployeeServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "employee-manage:~$ ");
@@ -61,16 +64,16 @@ public class EmployeeView {
                     employeeManage(handler);
                     break;
                 case 1:
-                    EmployeeServe.queryEmployee(1, handler);
+                    epys.queryEmployee(1, handler);
                     break;
                 case 2:
-                    EmployeeServe.queryEmployee(2, handler);
+                    epys.queryEmployee(2, handler);
                     break;
                 case 3:
-                    EmployeeServe.queryEmployee(3, handler);
+                    epys.queryEmployee(3, handler);
                     break;
                 case 4:
-                    EmployeeServe.queryEmployee(4, handler);
+                    epys.queryEmployee(4, handler);
                 default:
                     System.out.println(choice + ": command not found");
                     break;

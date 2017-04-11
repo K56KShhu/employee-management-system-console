@@ -14,6 +14,7 @@ public class DepartmentView {
         System.out.println("4. 删除部门");
         System.out.println("5. 返回");
         System.out.println("**************************");
+        DepartmentServe ds = DepartmentServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "department-manage:~$ ");
@@ -26,13 +27,13 @@ public class DepartmentView {
                     departmentQueryWays(handler);
                     break;
                 case 2:
-                    DepartmentServe.updateDept(handler);
+                    ds.updateDept(handler);
                     break;
                 case 3:
-                    DepartmentServe.addDept(handler);
+                    ds.addDept(handler);
                     break;
                 case 4:
-                    DepartmentServe.deleteDept(handler);
+                    ds.deleteDept(handler);
                     break;
                 default:
                     System.out.println(choice + ": command not found");
@@ -52,6 +53,7 @@ public class DepartmentView {
         System.out.println("6. 显示所有部门");
         System.out.println("0. 返回");
         System.out.println("**************************");
+        DepartmentServe ds = DepartmentServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "department-manage:~$ ");
@@ -61,22 +63,22 @@ public class DepartmentView {
                     departmentManage(handler);
                     break;
                 case 1:
-                    DepartmentServe.queryDepartment(1, handler);
+                    ds.queryDepartment(1, handler);
                     break;
                 case 2:
-                    DepartmentServe.queryDepartment(2, handler);
+                    ds.queryDepartment(2, handler);
                     break;
                 case 3:
-                    DepartmentServe.queryDepartment(3, handler);
+                    ds.queryDepartment(3, handler);
                     break;
                 case 4:
-                    DepartmentServe.queryDepartment(4, handler);
+                    ds.queryDepartment(4, handler);
                     break;
                 case 5:
-                    DepartmentServe.queryDepartment(5, handler);
+                    ds.queryDepartment(5, handler);
                     break;
                 case 6:
-                    DepartmentServe.queryDepartment(6, handler);
+                    ds.queryDepartment(6, handler);
                     break;
                 default:
                     System.out.println(choice + ": command not found");

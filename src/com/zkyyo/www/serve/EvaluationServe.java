@@ -1,5 +1,6 @@
 package com.zkyyo.www.serve;
 
+import com.zkyyo.www.dao.DepartmentDao;
 import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.dao.EvaluationDao;
 import com.zkyyo.www.po.EmployeePo;
@@ -10,11 +11,28 @@ import com.zkyyo.www.view.EvaluationView;
 import java.util.Map;
 
 public class EvaluationServe {
+    private static volatile EvaluationServe INSTANCE = null;
 
-    public static void addEvaluation(EmployeePo handler) {
+    private EvaluationServe() {
+    }
+
+    public static EvaluationServe getInstance() {
+        if (INSTANCE == null) {
+            synchronized (EvaluationServe.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new EvaluationServe();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public void addEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入被评价员工的员工号:");
         int beEvaluatedId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(beEvaluatedId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(beEvaluatedId);
         boolean isAdded = false;
 
         if (foundEp == null)
@@ -32,7 +50,7 @@ public class EvaluationServe {
             System.out.println("请输入评价内容(可选):");
             String comment = ScannerUtil.scanString(false);
             EvaluationPo newEval = new EvaluationPo(beEvaluatedId, handler.geteUserId(), starLevel, comment);
-            isAdded = EvaluationDao.addEvaluation(newEval);
+            isAdded = evald.addEvaluation(newEval);
 
             if (isAdded) {
                 System.out.println("评价成功");
@@ -44,15 +62,17 @@ public class EvaluationServe {
         EvaluationView.evaluationManage(handler);
     }
 
-    public static void querySendedEvaluation(EmployeePo handler) {
+    public void querySendedEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入待查询员工的员工号:");
         int searchedId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(searchedId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(searchedId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
         } else {
-            Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMapByEvaluatorId(searchedId);
+            Map<Integer, EvaluationPo> evals = evald.selectEvaluationMapByEvaluatorId(searchedId);
             if (evals.isEmpty()) {
                 System.out.println("该员工未发送任何评价");
             } else {
@@ -70,15 +90,17 @@ public class EvaluationServe {
         EvaluationView.evaluationManage(handler);
     }
 
-    public static void queryReceivedEvaluation(EmployeePo handler) {
+    public void queryReceivedEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入待查询员工的员工号:");
         int searchedId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(searchedId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(searchedId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
         } else {
-            Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMapByBeEvaluatedId(searchedId);
+            Map<Integer, EvaluationPo> evals = evald.selectEvaluationMapByBeEvaluatedId(searchedId);
             if (evals.isEmpty()) {
                 System.out.println("该员工未收到任何评价");
             } else {
@@ -96,8 +118,9 @@ public class EvaluationServe {
         EvaluationView.evaluationManage(handler);
     }
 
-    public static void queryEvaluations(EmployeePo handler) {
-        Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMap();
+    public void queryEvaluations(EmployeePo handler) {
+        EvaluationDao evald = EvaluationDao.getInstance();
+        Map<Integer, EvaluationPo> evals = evald.selectEvaluationMap();
         if (evals.isEmpty()) {
             System.out.println("暂无评价");
         } else {
@@ -113,15 +136,17 @@ public class EvaluationServe {
         EvaluationView.evaluationManage(handler);
     }
 
-    public static void updateSendedEvaluation(EmployeePo handler) {
+    public void updateSendedEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入发送评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(userId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
         } else {
-            Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMapByBeEvaluatedId(userId);
+            Map<Integer, EvaluationPo> evals = evald.selectEvaluationMapByBeEvaluatedId(userId);
             if (evals.isEmpty()) {
                 System.out.println("该员工未收到任何评价");
             } else {
@@ -155,7 +180,7 @@ public class EvaluationServe {
                         updatedEval.setStarLevel(starLevel);
                         updatedEval.setComment(comment);
 
-                        boolean isUpdated = EvaluationDao.updateEvaluation(updatedEval);
+                        boolean isUpdated = evald.updateEvaluation(updatedEval);
                         if (isUpdated) {
                             System.out.println("评价修改成功");
                         } else {
@@ -168,15 +193,17 @@ public class EvaluationServe {
         }
     }
 
-    public static void updateReceivedEvaluation(EmployeePo handler) {
+    public void updateReceivedEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入收到评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(userId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
         } else {
-            Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMapByEvaluatorId(userId);
+            Map<Integer, EvaluationPo> evals = evald.selectEvaluationMapByEvaluatorId(userId);
             if (evals.isEmpty()) {
                 System.out.println("该员工未发送任何评价");
             } else {
@@ -210,7 +237,7 @@ public class EvaluationServe {
                         updatedEval.setStarLevel(starLevel);
                         updatedEval.setComment(comment);
 
-                        boolean isUpdated = EvaluationDao.updateEvaluation(updatedEval);
+                        boolean isUpdated = evald.updateEvaluation(updatedEval);
                         if (isUpdated) {
                             System.out.println("评价修改成功");
                         } else {
@@ -223,15 +250,17 @@ public class EvaluationServe {
         }
     }
 
-    public static void deleteSendedEvaluation(EmployeePo handler) {
+    public void deleteSendedEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入发送评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(userId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
         } else {
-            Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMapByBeEvaluatedId(userId);
+            Map<Integer, EvaluationPo> evals = evald.selectEvaluationMapByBeEvaluatedId(userId);
             if (evals.isEmpty()) {
                 System.out.println("该员工未收到任何评价");
             } else {
@@ -251,7 +280,7 @@ public class EvaluationServe {
                         System.out.println("找不到该索引对应的评价,请重新输入");
                     } else {
                         int delEvalId = evals.get(deletedIndex).getEvaluationId();
-                        boolean isDeleted = EvaluationDao.deleteEvaluation(delEvalId);
+                        boolean isDeleted = evald.deleteEvaluation(delEvalId);
                         if (isDeleted) {
                             System.out.println("删除评价成功");
                         } else {
@@ -263,15 +292,17 @@ public class EvaluationServe {
         }
     }
 
-    public static void deleteReceievdEvaluation(EmployeePo handler) {
+    public void deleteReceievdEvaluation(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EvaluationDao evald = EvaluationDao.getInstance();
         System.out.println("请输入收到评价的员工:");
         int userId = ScannerUtil.scanNum();
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(userId);
+        EmployeePo foundEp = epd.selectEmployeeByUserId(userId);
 
         if (foundEp == null) {
             System.out.println("查无此员工");
         } else {
-            Map<Integer, EvaluationPo> evals = EvaluationDao.selectEvaluationMapByEvaluatorId(userId);
+            Map<Integer, EvaluationPo> evals = evald.selectEvaluationMapByEvaluatorId(userId);
             if (evals.isEmpty()) {
                 System.out.println("该员工未发送任何评价");
             } else {
@@ -291,7 +322,7 @@ public class EvaluationServe {
                         System.out.println("找不到该索引对应的评价,请重新输入");
                     } else {
                         int delEvalId = evals.get(deletedIndex).getEvaluationId();
-                        boolean isDeleted = EvaluationDao.deleteEvaluation(delEvalId);
+                        boolean isDeleted = evald.deleteEvaluation(delEvalId);
                         if (isDeleted) {
                             System.out.println("删除评价成功");
                         } else {

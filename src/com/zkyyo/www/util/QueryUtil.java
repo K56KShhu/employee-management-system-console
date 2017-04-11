@@ -1,5 +1,6 @@
 package com.zkyyo.www.util;
 
+import com.sun.xml.internal.ws.api.addressing.AddressingVersion;
 import com.zkyyo.www.dao.DepartmentDao;
 import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.DepartmentPo;
@@ -12,7 +13,8 @@ import java.util.List;
 public class QueryUtil {
 
     public static EmployeePo queryEmployeeByUserId(int userId) {
-        EmployeePo foundEp = EmployeeDao.selectEmployeeByUserId(userId);
+        EmployeeDao epd = EmployeeDao.getInstance();
+        EmployeePo foundEp = epd.selectEmployeeByUserId(userId);
         if (foundEp == null) {
             System.out.println("查无此人");
         } else {
@@ -83,15 +85,16 @@ public class QueryUtil {
 //    }
 
     public static <T> EmployeePo fuzzyQueryEmployee(T userInfo) {
+        EmployeeDao epd = EmployeeDao.getInstance();
         List<EmployeePo> list = new ArrayList<>();
         EmployeePo accurateEp = null;
 
         if (userInfo instanceof Integer) {
             int userId = (Integer) userInfo;
-            list = EmployeeDao.selectPossibleEmployeesByUserId(userId);
+            list = epd.selectPossibleEmployeesByUserId(userId);
         } else if (userInfo instanceof String) {
             String userName = (String) userInfo;
-            list = EmployeeDao.selectPossibleEmployeesByUserName(userName);
+            list =epd.selectPossibleEmployeesByUserName(userName);
         }
 
         if (list.size() == 0) {
@@ -122,7 +125,8 @@ public class QueryUtil {
     }
 
     public static DepartmentPo queryDepartmentByDeptrId(int deptId) {
-        DepartmentPo foundDept = DepartmentDao.selectDepartmentByDeptId(deptId);
+        DepartmentDao dd = DepartmentDao.getInstance();
+        DepartmentPo foundDept = dd.selectDepartmentByDeptId(deptId);
         if (foundDept == null) {
             System.out.println("查无此部门");
         } else {
@@ -135,15 +139,16 @@ public class QueryUtil {
     }
 
     public static <T> DepartmentPo fuzzyQueryDepartment(T deptInfo) {
+        DepartmentDao dd = DepartmentDao.getInstance();
         List<DepartmentPo> list = new ArrayList<>();
         DepartmentPo accurateDept = null;
 
         if (deptInfo instanceof Integer) {
             int deptId = (Integer) deptInfo;
-            list = DepartmentDao.selectPossibleDepartmentsByDeptId(deptId);
+            list = dd.selectPossibleDepartmentsByDeptId(deptId);
         } else if (deptInfo instanceof String) {
             String deptName = (String) deptInfo;
-            list = DepartmentDao.selectPossibleDepartmentByDeptName(deptName);
+            list = dd.selectPossibleDepartmentByDeptName(deptName);
         }
 
         if (list.size() == 0) {

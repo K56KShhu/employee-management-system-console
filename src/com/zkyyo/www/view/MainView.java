@@ -14,6 +14,7 @@ public class MainView {
         System.out.println("1. 登录");
         System.out.println("2. 退出");
         System.out.println("***********************************");
+        EmployeeDao epd = EmployeeDao.getInstance();
 
         do {
             System.out.print("null@manage-system:~$ ");
@@ -25,7 +26,7 @@ public class MainView {
                     System.out.print("Enter Password: ");
                     String enterPassword = ScannerUtil.scanPwd();
 
-                    EmployeePo ep = EmployeeDao.loginCheck(enterUserId);
+                    EmployeePo ep = epd.loginCheck(enterUserId);
                     if (ep == null) {
                         System.out.println("查无此员工号");
                         mainView();

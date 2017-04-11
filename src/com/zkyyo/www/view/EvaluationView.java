@@ -1,5 +1,6 @@
 package com.zkyyo.www.view;
 
+import com.zkyyo.www.dao.EvaluationDao;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.serve.EvaluationServe;
 import com.zkyyo.www.util.ScannerUtil;
@@ -13,6 +14,7 @@ public class EvaluationView {
         System.out.println("4. 删除评价");
         System.out.println("0. 返回");
         System.out.println("***********************");
+        EvaluationServe es = EvaluationServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
@@ -28,7 +30,7 @@ public class EvaluationView {
                     updateEvaluationSorts(handler);
                     break;
                 case 3:
-                    EvaluationServe.addEvaluation(handler);
+                    es.addEvaluation(handler);
                     break;
                 case 4:
                     deleteEvaluationSorts(handler);
@@ -46,6 +48,7 @@ public class EvaluationView {
         System.out.println("3. 查询所有评价");
         System.out.println("0. 返回");
         System.out.println("***********************");
+        EvaluationServe es = EvaluationServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
@@ -55,13 +58,13 @@ public class EvaluationView {
                     evaluationManage(handler);
                     break;
                 case 1:
-                    EvaluationServe.querySendedEvaluation(handler);
+                    es.querySendedEvaluation(handler);
                     break;
                 case 2:
-                    EvaluationServe.queryReceivedEvaluation(handler);
+                    es.queryReceivedEvaluation(handler);
                     break;
                 case 3:
-                    EvaluationServe.queryEvaluations(handler);
+                    es.queryEvaluations(handler);
                 default:
                     System.out.println(choice + ": command not found");
                     break;
@@ -74,6 +77,7 @@ public class EvaluationView {
         System.out.println("2. 修改获得的评价");
         System.out.println("0. 返回");
         System.out.println("***********************");
+        EvaluationServe es = EvaluationServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
@@ -83,10 +87,10 @@ public class EvaluationView {
                     evaluationManage(handler);
                     break;
                 case 1:
-                    EvaluationServe.updateSendedEvaluation(handler);
+                    es.updateSendedEvaluation(handler);
                     break;
                 case 2:
-                    EvaluationServe.updateReceivedEvaluation(handler);
+                    es.updateReceivedEvaluation(handler);
                     break;
                 default:
                     System.out.println(choice + ": command not found");
@@ -100,6 +104,7 @@ public class EvaluationView {
         System.out.println("2. 删除获得的评价");
         System.out.println("0. 返回");
         System.out.println("***********************");
+        EvaluationServe es = EvaluationServe.getInstance();
 
         do {
             System.out.print(handler.geteName() + "@" + "evaluation-manage:~$ ");
@@ -109,10 +114,10 @@ public class EvaluationView {
                     evaluationManage(handler);
                     break;
                 case 1:
-                    EvaluationServe.deleteSendedEvaluation(handler);
+                    es.deleteSendedEvaluation(handler);
                     break;
                 case 2:
-                    EvaluationServe.deleteReceievdEvaluation(handler);
+                    es.deleteReceievdEvaluation(handler);
                     break;
                 default:
                     System.out.println(choice + ": command not found");

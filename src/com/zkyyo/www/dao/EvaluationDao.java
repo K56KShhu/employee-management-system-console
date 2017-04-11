@@ -10,8 +10,23 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class EvaluationDao {
+    private static volatile EvaluationDao INSTANCE = null;
 
-    public static boolean addEvaluation(EvaluationPo newEval) {
+    private EvaluationDao() {
+    }
+
+    public static EvaluationDao getInstance() {
+        if (INSTANCE == null) {
+            synchronized (EvaluationDao.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new EvaluationDao();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public boolean addEvaluation(EvaluationPo newEval) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isAdded = false;
@@ -34,7 +49,7 @@ public class EvaluationDao {
         return isAdded;
     }
 
-    public static Map<Integer, EvaluationPo> selectEvaluationMapByEvaluatorId(int evaluatorId) {
+    public Map<Integer, EvaluationPo> selectEvaluationMapByEvaluatorId(int evaluatorId) {
         Map<Integer, EvaluationPo> evals = new TreeMap<>();
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
@@ -65,7 +80,7 @@ public class EvaluationDao {
         return evals;
     }
 
-    public static Map<Integer, EvaluationPo> selectEvaluationMapByBeEvaluatedId(int beEvaluatedId) {
+    public Map<Integer, EvaluationPo> selectEvaluationMapByBeEvaluatedId(int beEvaluatedId) {
         Map<Integer, EvaluationPo> evals = new TreeMap<>();
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
@@ -96,7 +111,7 @@ public class EvaluationDao {
         return evals;
     }
 
-    public static Map<Integer, EvaluationPo> selectEvaluationMap() {
+    public Map<Integer, EvaluationPo> selectEvaluationMap() {
         Map<Integer, EvaluationPo> evals = new TreeMap<>();
         Connection conn = DbConn.getConn();
         Statement stmt = null;
@@ -127,7 +142,7 @@ public class EvaluationDao {
         return evals;
     }
 
-    public static boolean updateEvaluation(EvaluationPo newEvaluation) {
+    public boolean updateEvaluation(EvaluationPo newEvaluation) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdated = false;
@@ -152,7 +167,7 @@ public class EvaluationDao {
         return isUpdated;
     }
 
-    public static boolean deleteEvaluation(int evaluationId) {
+    public boolean deleteEvaluation(int evaluationId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isDeleted = false;

@@ -6,10 +6,25 @@ import java.util.ArrayList;
 import com.zkyyo.www.db.DbClose;
 import com.zkyyo.www.db.DbConn;
 import com.zkyyo.www.po.EmployeePo;
+import com.zkyyo.www.serve.EmployeeServe;
 
 public class EmployeeDao {
+    private static volatile EmployeeDao INSTANCE = null;
 
-    public static EmployeePo loginCheck(int enterUserId) {
+    private EmployeeDao() {}
+
+    public static EmployeeDao getInstance() {
+        if (INSTANCE == null) {
+            synchronized (EvaluationDao.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new EmployeeDao();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public EmployeePo loginCheck(int enterUserId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -42,7 +57,7 @@ public class EmployeeDao {
         return null;
     }
 
-    public static boolean addEmployee(EmployeePo newEp) {
+    public boolean addEmployee(EmployeePo newEp) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdated = false;
@@ -73,7 +88,7 @@ public class EmployeeDao {
         return isUpdated;
     }
 
-    public static boolean deleteEmployee(int deletedUserId) {
+    public boolean deleteEmployee(int deletedUserId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
 
@@ -95,7 +110,7 @@ public class EmployeeDao {
         return false;
     }
 
-    public static EmployeePo selectEmployeeByUserId(int searchedUserId) {
+    public EmployeePo selectEmployeeByUserId(int searchedUserId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -126,7 +141,7 @@ public class EmployeeDao {
         return null;
     }
 
-    public static ArrayList<EmployeePo> selectEmployees() {
+    public ArrayList<EmployeePo> selectEmployees() {
         Connection conn = DbConn.getConn();
         Statement stmt = null;
         ResultSet rs = null;
@@ -158,7 +173,7 @@ public class EmployeeDao {
         return eps;
     }
 
-    public static ArrayList<EmployeePo> selectPossibleEmployeesByUserId(int userId) {
+    public ArrayList<EmployeePo> selectPossibleEmployeesByUserId(int userId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -191,7 +206,7 @@ public class EmployeeDao {
         return eps;
     }
 
-    public static ArrayList<EmployeePo> selectPossibleEmployeesByUserName(String userName) {
+    public ArrayList<EmployeePo> selectPossibleEmployeesByUserName(String userName) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -224,7 +239,7 @@ public class EmployeeDao {
         return eps;
     }
 
-    public static boolean updateEmployee(int updateUserId, int type, EmployeePo newEp) {
+    public boolean updateEmployee(int updateUserId, int type, EmployeePo newEp) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdate = false;

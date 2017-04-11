@@ -9,8 +9,23 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DepartmentDao {
+    private static volatile DepartmentDao INSTANCE = null;
 
-    public static boolean addDepartment(DepartmentPo newDept) {
+    private DepartmentDao() {
+    }
+
+    public static DepartmentDao getInstance() {
+        if (INSTANCE == null) {
+            synchronized (EvaluationDao.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new DepartmentDao();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public boolean addDepartment(DepartmentPo newDept) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isAdded = false;
@@ -37,7 +52,7 @@ public class DepartmentDao {
         return isAdded;
     }
 
-    public static DepartmentPo selectDepartmentByDeptId(int searchedDeptId) {
+    public DepartmentPo selectDepartmentByDeptId(int searchedDeptId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -66,7 +81,7 @@ public class DepartmentDao {
         return null;
     }
 
-    public static DepartmentPo selectDepartmentByDeptName(String searchedDeptName) {
+    public DepartmentPo selectDepartmentByDeptName(String searchedDeptName) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -95,7 +110,7 @@ public class DepartmentDao {
         return null;
     }
 
-    public static DepartmentPo selectDepartmentByUserId(int userId) {
+    public DepartmentPo selectDepartmentByUserId(int userId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -132,7 +147,7 @@ public class DepartmentDao {
         return null;
     }
 
-    public static DepartmentPo selectDepartmentByUserName(String userName) {
+    public DepartmentPo selectDepartmentByUserName(String userName) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -169,7 +184,7 @@ public class DepartmentDao {
         return null;
     }
 
-    public static ArrayList<DepartmentPo> selectPossibleDepartmentsByDeptId(int searchedDeptId) {
+    public ArrayList<DepartmentPo> selectPossibleDepartmentsByDeptId(int searchedDeptId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -198,7 +213,7 @@ public class DepartmentDao {
         return depts;
     }
 
-    public static ArrayList<DepartmentPo> selectPossibleDepartmentByDeptName(String searcheDdeptName) {
+    public ArrayList<DepartmentPo> selectPossibleDepartmentByDeptName(String searcheDdeptName) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -227,7 +242,7 @@ public class DepartmentDao {
         return depts;
     }
 
-    public static ArrayList<DepartmentPo> selectDepartments() {
+    public ArrayList<DepartmentPo> selectDepartments() {
         Connection conn = DbConn.getConn();
         Statement stmt = null;
         ResultSet rs = null;
@@ -257,7 +272,7 @@ public class DepartmentDao {
         return depts;
     }
 
-    public static boolean deleteDept(int deleteddeptId) {
+    public boolean deleteDept(int deleteddeptId) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isDeleted = false;
@@ -278,7 +293,7 @@ public class DepartmentDao {
         return isDeleted;
     }
 
-    public static boolean updateDept(int updateDeptId, int type, DepartmentPo newDept) {
+    public boolean updateDept(int updateDeptId, int type, DepartmentPo newDept) {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         boolean isUpdated = false;
