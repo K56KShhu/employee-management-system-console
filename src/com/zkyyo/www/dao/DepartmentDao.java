@@ -3,7 +3,6 @@ package com.zkyyo.www.dao;
 import com.zkyyo.www.db.DbClose;
 import com.zkyyo.www.db.DbConn;
 import com.zkyyo.www.po.DepartmentPo;
-import com.zkyyo.www.po.EmployeePo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -83,6 +82,7 @@ public class DepartmentDao {
         return null;
     }
 
+    /*
     public DepartmentPo selectDepartmentByDeptName(String searchedDeptName) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -112,6 +112,7 @@ public class DepartmentDao {
         }
         return null;
     }
+    */
 
     public DepartmentPo selectDepartmentByUserId(int userId) {
         Connection conn = null;
@@ -193,7 +194,7 @@ public class DepartmentDao {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
+        ArrayList<DepartmentPo> depts = new ArrayList<>();
 
         try {
             conn = DbConn.getConn();
@@ -223,7 +224,7 @@ public class DepartmentDao {
         Connection conn = DbConn.getConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
+        ArrayList<DepartmentPo> depts = new ArrayList<>();
 
         try {
             conn = DbConn.getConn();
@@ -253,7 +254,7 @@ public class DepartmentDao {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
+        ArrayList<DepartmentPo> depts = new ArrayList<>();
 
         try {
             conn = DbConn.getConn();
@@ -323,7 +324,7 @@ public class DepartmentDao {
 
         try {
             conn = DbConn.getConn();
-            String sql = null;
+            String sql;
             int effects = 0;
             switch (type) {
                 //部门名

@@ -9,13 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CreateIdUtil {
-    public static final int userIdDigits = 10;
 
     public static int creatUserId() {
         Connection conn = DbConn.getConn();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        int largestNum = (int) Math.pow(10, userIdDigits);
+        //员工号最多⑧位
+        int largestNum = (int) Math.pow(10, 9);
 
         try {
             String sql = "SELECT * FROM employee WHERE user_id=?";
@@ -66,16 +66,5 @@ public class CreateIdUtil {
             DbClose.close(conn, stmt, rs);
         }
         return 0;
-    }
-
-    /**
-     * 单元测试
-     * @param args
-     */
-    public static void main(String[] args) {
-        do {
-            int deptId = creatDepartmentId();
-            System.out.println(deptId);
-        } while (true);
     }
 }

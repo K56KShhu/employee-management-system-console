@@ -1,6 +1,5 @@
 package com.zkyyo.www.view;
 
-import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.serve.EmployeeServe;
 import com.zkyyo.www.util.ScannerUtil;

@@ -1,7 +1,6 @@
 package com.zkyyo.www.serve;
 
 import com.zkyyo.www.dao.DepartmentDao;
-import com.zkyyo.www.dao.EmployeeDao;
 import com.zkyyo.www.po.DepartmentPo;
 import com.zkyyo.www.po.EmployeePo;
 import com.zkyyo.www.util.CreateIdUtil;
