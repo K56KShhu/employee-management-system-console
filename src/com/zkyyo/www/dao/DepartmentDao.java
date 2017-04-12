@@ -26,42 +26,44 @@ public class DepartmentDao {
     }
 
     public boolean addDepartment(DepartmentPo newDept) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isAdded = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = "INSERT INTO department (dept_id, dept_name," +
                     "dept_population, description, built_date) VALUES (?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, newDept.getDeptId());
-            stmt.setString(2, newDept.getDeptName());
-            stmt.setInt(3, newDept.getDeptPopulation());
-            stmt.setString(4, newDept.getDeptDesc());
-            stmt.setDate(5, newDept.getBuiltDate());
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newDept.getDeptId());
+            pstmt.setString(2, newDept.getDeptName());
+            pstmt.setInt(3, newDept.getDeptPopulation());
+            pstmt.setString(4, newDept.getDeptDesc());
+            pstmt.setDate(5, newDept.getBuiltDate());
 
-            int effects = stmt.executeUpdate();
+            int effects = pstmt.executeUpdate();
             if (effects > 0) {
                 isAdded = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
         return isAdded;
     }
 
     public DepartmentPo selectDepartmentByDeptId(int searchedDeptId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM department WHERE dept_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, searchedDeptId);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, searchedDeptId);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int deptId = rs.getInt("dept_id");
@@ -76,21 +78,22 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return null;
     }
 
     public DepartmentPo selectDepartmentByDeptName(String searchedDeptName) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM department WHERE dept_name=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, searchedDeptName);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, searchedDeptName);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int deptId = rs.getInt("dept_id");
@@ -105,28 +108,29 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return null;
     }
 
     public DepartmentPo selectDepartmentByUserId(int userId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT dept_id FROM employee WHERE user_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, userId);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userId);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int searchedDeptId = rs.getInt("dept_id");
                 sql = "SELECT * FROM department WHERE dept_id=?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, searchedDeptId);
-                rs = stmt.executeQuery();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, searchedDeptId);
+                rs = pstmt.executeQuery();
 
                 if (rs.next()) {
                     int deptId = rs.getInt("dept_id");
@@ -142,28 +146,29 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return null;
     }
 
     public DepartmentPo selectDepartmentByUserName(String userName) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT dept_id FROM employee WHERE user_name=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userName);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userName);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int searchedDeptId = rs.getInt("dept_id");
                 sql = "SELECT * FROM department WHERE dept_id=?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, searchedDeptId);
-                rs = stmt.executeQuery();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, searchedDeptId);
+                rs = pstmt.executeQuery();
 
                 if (rs.next()) {
                     int deptId = rs.getInt("dept_id");
@@ -179,22 +184,23 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return null;
     }
 
     public ArrayList<DepartmentPo> selectPossibleDepartmentsByDeptId(int searchedDeptId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM department WHERE dept_id LIKE ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "%" + searchedDeptId + "%");
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + searchedDeptId + "%");
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int deptId = rs.getInt("dept_id");
@@ -208,22 +214,23 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return depts;
     }
 
     public ArrayList<DepartmentPo> selectPossibleDepartmentByDeptName(String searcheDdeptName) {
         Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM department WHERE dept_name LIKE ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "%" + searcheDdeptName + "%");
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + searcheDdeptName + "%");
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int deptId = rs.getInt("dept_id");
@@ -237,18 +244,19 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return depts;
     }
 
     public ArrayList<DepartmentPo> selectDepartments() {
-        Connection conn = DbConn.getConn();
+        Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
         ArrayList<DepartmentPo> depts = new ArrayList<DepartmentPo>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM department";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
@@ -273,11 +281,12 @@ public class DepartmentDao {
     }
 
     public boolean deleteDept(int deleteddeptId) {
-        Connection conn = DbConn.getConn();
+        Connection conn = null;
         PreparedStatement stmt = null;
         boolean isDeleted = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = "DELETE FROM department WHERE dept_id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, deleteddeptId);
@@ -294,37 +303,38 @@ public class DepartmentDao {
     }
 
     public boolean updateDept(int updateDeptId, int type, DepartmentPo newDept) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isUpdated = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = null;
             int effects = 0;
             switch (type) {
                 //部门名
                 case 1:
                     sql = "UPDATE department SET dept_name=? WHERE dept_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, newDept.getDeptName());
-                    stmt.setInt(2, updateDeptId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, newDept.getDeptName());
+                    pstmt.setInt(2, updateDeptId);
+                    effects = pstmt.executeUpdate();
                     break;
                 //部门描述
                 case 2:
                     sql = "UPDATE department SET description=? WHERE dept_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, newDept.getDeptDesc());
-                    stmt.setInt(2, updateDeptId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, newDept.getDeptDesc());
+                    pstmt.setInt(2, updateDeptId);
+                    effects = pstmt.executeUpdate();
                     break;
                 //建立时间
                 case 3:
                     sql = "UPDATE department SET built_date=? WHERE dept_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setDate(1, newDept.getBuiltDate());
-                    stmt.setInt(2, updateDeptId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setDate(1, newDept.getBuiltDate());
+                    pstmt.setInt(2, updateDeptId);
+                    effects = pstmt.executeUpdate();
                     break;
             }
             if (effects > 0) {
@@ -333,7 +343,7 @@ public class DepartmentDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
         return isUpdated;
     }

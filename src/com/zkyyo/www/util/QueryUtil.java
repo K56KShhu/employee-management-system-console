@@ -26,63 +26,7 @@ public class QueryUtil {
         return foundEp;
     }
 
-//    public static EmployeePo fuzzyQueryEmployeeByUserId(int userId) {
-//        List<EmployeePo> list = EmployeeDao.fuzzyQueryEmployeeByUserId(userId);
-//        EmployeePo accurateEp = null;
-//
-//        if (list.size() == 0) {
-//            System.out.println("找不到匹配的员工号");
-//        } else if (list.size() == 1) {
-//            accurateEp = list.get(0);
-//        } else {
-//            System.out.println("匹配结果如下");
-//            for (int i = 0; i < list.size(); i++) {
-//                EmployeePo e = list.get(i);
-//                System.out.printf("索引:%-4d 员工号:%-12d 员工名:%-8s 部门号:%-6d\n",
-//                        i + 1, e.geteUserId(), e.geteName(), e.geteDeptId());
-//            }
-//            System.out.println("请输入相应的索引查询详细信息:");
-//            do {
-//                int index = ScannerUtil.scanNum();
-//                if (index == 0 || index > list.size()) {
-//                    System.out.println("索引无效,请重新输入");
-//                } else {
-//                    accurateEp = list.get(index - 1);
-//                    break;
-//                }
-//            } while (true);
-//        }
-//        return accurateEp;
-//    }
-//
-//    public static EmployeePo fuzzyQueryEmployeeByUserName(String userName) {
-//        List<EmployeePo> list = EmployeeDao.fuzzyQueryEmployeeByUserName(userName);
-//        EmployeePo accurateEp = null;
-//
-//        if (list.size() == 0) {
-//            System.out.println("找不到匹配的员工名");
-//        } else if (list.size() == 1) {
-//            accurateEp = list.get(0);
-//        } else {
-//            System.out.println("匹配结果如下");
-//            for (int i = 0; i < list.size(); i++) {
-//                EmployeePo e = list.get(i);
-//                System.out.printf("索引:%-4d 员工号:%-12d 员工名:%-8s 部门号:%-6d\n",
-//                        i + 1, e.geteUserId(), e.geteName(), e.geteDeptId());
-//            }
-//            System.out.println("请输入相应的索引查询详细信息:");
-//            do {
-//                int index = ScannerUtil.scanNum();
-//                if (index == 0 || index > list.size()) {
-//                    System.out.println("索引无效,请重新输入");
-//                } else {
-//                    accurateEp = list.get(index - 1);
-//                    break;
-//                }
-//            } while (true);
-//        }
-//        return accurateEp;
-//    }
+
 
     public static <T> EmployeePo fuzzyQueryEmployee(T userInfo) {
         EmployeeDao epd = EmployeeDao.getInstance();

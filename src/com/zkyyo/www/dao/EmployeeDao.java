@@ -25,15 +25,16 @@ public class EmployeeDao {
     }
 
     public EmployeePo loginCheck(int enterUserId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM employee WHERE user_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, enterUserId);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, enterUserId);
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int eUserId = rs.getInt("user_id");
@@ -52,74 +53,76 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return null;
     }
 
     public boolean addEmployee(EmployeePo newEp) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isUpdated = false;
 
         try {
-            String sql = "INSERT INTO employee (user_id, user_pwd, user_name, dept_id," +
-                    " mobile, salary, email, employee_date)" +
+            conn = DbConn.getConn();
+            String sql = "INSERT INTO employee (user_id, user_pwd, user_name, dept_id mobile, salary, email, employee_date)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, newEp.geteUserId());
-            stmt.setString(2, newEp.getePassword());
-            stmt.setString(3, newEp.geteName());
-            stmt.setInt(4, newEp.geteDeptId());
-            stmt.setString(5, newEp.geteMobile());
-            stmt.setDouble(6, newEp.geteSalary());
-            stmt.setString(7, newEp.geteEmail());
-            stmt.setDate(8, newEp.geteEmployDate());
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newEp.geteUserId());
+            pstmt.setString(2, newEp.getePassword());
+            pstmt.setString(3, newEp.geteName());
+            pstmt.setInt(4, newEp.geteDeptId());
+            pstmt.setString(5, newEp.geteMobile());
+            pstmt.setDouble(6, newEp.geteSalary());
+            pstmt.setString(7, newEp.geteEmail());
+            pstmt.setDate(8, newEp.geteEmployDate());
 
-            int efforts = stmt.executeUpdate();
+            int efforts = pstmt.executeUpdate();
             if (efforts > 0) {
                 isUpdated = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
         return isUpdated;
     }
 
     public boolean deleteEmployee(int deletedUserId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "DELETE FROM employee WHERE user_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, deletedUserId);
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, deletedUserId);
 
-            int effects = stmt.executeUpdate();
+            int effects = pstmt.executeUpdate();
             if (effects > 0) {
                 return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
 
         return false;
     }
 
     public EmployeePo selectEmployeeByUserId(int searchedUserId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM employee WHERE user_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, searchedUserId);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, searchedUserId);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int eUserId = rs.getInt("user_id");
@@ -136,18 +139,19 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return null;
     }
 
     public ArrayList<EmployeePo> selectEmployees() {
-        Connection conn = DbConn.getConn();
+        Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
         ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM employee";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
@@ -174,16 +178,17 @@ public class EmployeeDao {
     }
 
     public ArrayList<EmployeePo> selectPossibleEmployeesByUserId(int userId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM employee WHERE user_id LIKE ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "%" + userId + "%");
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + userId + "%");
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int eUserId = rs.getInt("user_id");
@@ -201,22 +206,23 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return eps;
     }
 
     public ArrayList<EmployeePo> selectPossibleEmployeesByUserName(String userName) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<EmployeePo> eps = new ArrayList<EmployeePo>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM employee WHERE user_name LIKE ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "%" + userName + "%");
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + userName + "%");
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int eUserId = rs.getInt("user_id");
@@ -234,61 +240,62 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return eps;
     }
 
     public boolean updateEmployee(int updateUserId, int type, EmployeePo newEp) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isUpdate = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = null;
             int effects = 0;
             switch (type) {
                 case 1:
                     sql = "UPDATE employee SET dept_id=? WHERE user_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setInt(1, newEp.geteDeptId());
-                    stmt.setInt(2, updateUserId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, newEp.geteDeptId());
+                    pstmt.setInt(2, updateUserId);
+                    effects = pstmt.executeUpdate();
                     break;
                 case 2:
                     sql = "UPDATE employee SET mobile=? WHERE user_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, newEp.geteMobile());
-                    stmt.setInt(2, updateUserId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, newEp.geteMobile());
+                    pstmt.setInt(2, updateUserId);
+                    effects = pstmt.executeUpdate();
                     break;
                 case 3:
                     sql = "UPDATE employee SET salary=? WHERE user_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setDouble(1, newEp.geteSalary());
-                    stmt.setInt(2, updateUserId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setDouble(1, newEp.geteSalary());
+                    pstmt.setInt(2, updateUserId);
+                    effects = pstmt.executeUpdate();
                     break;
                 case 4:
                     sql = "UPDATE employee SET email=? WHERE user_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, newEp.geteEmail());
-                    stmt.setInt(2, updateUserId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, newEp.geteEmail());
+                    pstmt.setInt(2, updateUserId);
+                    effects = pstmt.executeUpdate();
                     break;
                 case 5:
                     sql = "UPDATE employee SET employee_date=? WHERE user_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setDate(1, newEp.geteEmployDate());
-                    stmt.setInt(2, updateUserId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setDate(1, newEp.geteEmployDate());
+                    pstmt.setInt(2, updateUserId);
+                    effects = pstmt.executeUpdate();
                     break;
                 case 6:
                     sql = "UPDATE employee SET user_pwd=? WHERE user_id=?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, newEp.getePassword());
-                    stmt.setInt(2, updateUserId);
-                    effects = stmt.executeUpdate();
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, newEp.getePassword());
+                    pstmt.setInt(2, updateUserId);
+                    effects = pstmt.executeUpdate();
                     break;
                 default:
                     break;
@@ -299,7 +306,7 @@ public class EmployeeDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
         return isUpdate;
     }

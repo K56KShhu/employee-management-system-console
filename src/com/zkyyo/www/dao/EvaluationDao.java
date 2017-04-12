@@ -27,39 +27,41 @@ public class EvaluationDao {
     }
 
     public boolean addEvaluation(EvaluationPo newEval) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isAdded = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = "INSERT INTO evaluation (be_evaluated_id, evaluator_id, star_level, comment) VALUES (?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, newEval.getBeEvaluatedId());
-            stmt.setInt(2, newEval.getEvaluatorId());
-            stmt.setInt(3, newEval.getStarLevel());
-            stmt.setString(4, newEval.getComment());
-            int effects = stmt.executeUpdate();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newEval.getBeEvaluatedId());
+            pstmt.setInt(2, newEval.getEvaluatorId());
+            pstmt.setInt(3, newEval.getStarLevel());
+            pstmt.setString(4, newEval.getComment());
+            int effects = pstmt.executeUpdate();
             if (effects > 0)
                 isAdded = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
         return isAdded;
     }
 
     public Map<Integer, EvaluationPo> selectEvaluationMapByEvaluatorId(int evaluatorId) {
-        Map<Integer, EvaluationPo> evals = new TreeMap<>();
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
+        Map<Integer, EvaluationPo> evals = new TreeMap<>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM evaluation WHERE evaluator_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, evaluatorId);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, evaluatorId);
+            rs = pstmt.executeQuery();
 
             int index = 1;
             while (rs.next()) {
@@ -75,22 +77,23 @@ public class EvaluationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return evals;
     }
 
     public Map<Integer, EvaluationPo> selectEvaluationMapByBeEvaluatedId(int beEvaluatedId) {
-        Map<Integer, EvaluationPo> evals = new TreeMap<>();
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
+        Map<Integer, EvaluationPo> evals = new TreeMap<>();
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM evaluation WHERE be_evaluated_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, beEvaluatedId);
-            rs = stmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, beEvaluatedId);
+            rs = pstmt.executeQuery();
 
             int index = 1;
             while (rs.next()) {
@@ -106,7 +109,7 @@ public class EvaluationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt, rs);
+            DbClose.close(conn, pstmt, rs);
         }
         return evals;
     }
@@ -118,6 +121,7 @@ public class EvaluationDao {
         ResultSet rs = null;
 
         try {
+            conn = DbConn.getConn();
             String sql = "SELECT * FROM evaluation";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
@@ -143,17 +147,18 @@ public class EvaluationDao {
     }
 
     public boolean updateEvaluation(EvaluationPo newEvaluation) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isUpdated = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = "UPDATE evaluation SET star_level=?, comment=? WHERE test_evaluation_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, newEvaluation.getStarLevel());
-            stmt.setString(2, newEvaluation.getComment());
-            stmt.setInt(3, newEvaluation.getEvaluationId());
-            int effects = stmt.executeUpdate();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newEvaluation.getStarLevel());
+            pstmt.setString(2, newEvaluation.getComment());
+            pstmt.setInt(3, newEvaluation.getEvaluationId());
+            int effects = pstmt.executeUpdate();
 
             if (effects > 0) {
                 isUpdated = true;
@@ -161,29 +166,30 @@ public class EvaluationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
 
         return isUpdated;
     }
 
     public boolean deleteEvaluation(int evaluationId) {
-        Connection conn = DbConn.getConn();
-        PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
         boolean isDeleted = false;
 
         try {
+            conn = DbConn.getConn();
             String sql = "DELETE FROM evaluation WHERE test_evaluation_id=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, evaluationId);
-            int effects = stmt.executeUpdate();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, evaluationId);
+            int effects = pstmt.executeUpdate();
             if (effects > 0) {
                 isDeleted = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbClose.close(conn, stmt);
+            DbClose.close(conn, pstmt);
         }
 
         return isDeleted;

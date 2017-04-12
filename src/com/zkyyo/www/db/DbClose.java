@@ -45,7 +45,7 @@ public class DbClose {
         }
     }
 
-    public static void close(Connection conn, PreparedStatement stmt) {
+    public static void close(Connection conn, PreparedStatement pstmt) {
         try {
             if (conn != null) {
                 conn.close();
@@ -54,15 +54,15 @@ public class DbClose {
             e.printStackTrace();
         }
         try {
-            if (stmt != null) {
-                stmt.close();
+            if (pstmt != null) {
+                pstmt.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void close(Connection conn, PreparedStatement stmt, ResultSet rs) {
+    public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
             if (conn != null) {
                 conn.close();
@@ -71,8 +71,8 @@ public class DbClose {
             e.printStackTrace();
         }
         try {
-            if (stmt != null) {
-                stmt.close();
+            if (pstmt != null) {
+                pstmt.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

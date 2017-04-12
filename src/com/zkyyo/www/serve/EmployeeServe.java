@@ -28,11 +28,11 @@ public class EmployeeServe {
     }
 
     public void queryEmployee(int type, EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
         int possibleUserId;
         int accurateUserId;
         String possibleUserName;
         EmployeePo foundEp = null;
-        EmployeeDao epd = EmployeeDao.getInstance();
 
         switch (type) {
             case 1:
@@ -71,11 +71,11 @@ public class EmployeeServe {
     }
 
     public void updateEmployeeInfo(EmployeePo handler) {
+        EmployeeDao epd = EmployeeDao.getInstance();
         boolean isUpdate = false;
         System.out.println("请输入需要需改的员工号");
         int updateUserId = ScannerUtil.scanNum();
         EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(updateUserId);
-        EmployeeDao epd = EmployeeDao.getInstance();
 
         if (foundEp != null) {
             do {
@@ -210,45 +210,4 @@ public class EmployeeServe {
             } while (true);
         }
     }
-
-//
-//    /**
-//     * 单元测试
-//     *
-//     * @param args 外部参数
-//     */
-//    public static void main(String[] args) {
-//        System.out.println("--------测试--------");
-//        System.out.println("0. exit");
-//        System.out.println("1. 增加");
-//        System.out.println("2. 删除");
-//        System.out.println("3. 查询");
-//        System.out.println("4. 修改");
-//        System.out.println("choice: ");
-//
-//        do {
-//            int choice = ScannerUtil.scanNum();
-//            switch (choice) {
-//                case 0:
-//                    System.exit(1);
-//                    break;
-//                case 1:
-//                    addEmployee(new EmployeePo());
-//                    break;
-//                case 2:
-//                    deleteEmployee(new EmployeePo());
-//                    break;
-//                case 3:
-//                    queryEmployee(4, new EmployeePo());
-//                    break;
-//                case 4:
-//                    updateEmployeeInfo(new EmployeePo());
-//                    break;
-//                default:
-//                    System.exit(1);
-//                    break;
-//            }
-//        } while (true);
-//    }
-
 }
