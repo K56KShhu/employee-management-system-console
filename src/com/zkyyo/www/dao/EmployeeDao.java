@@ -11,7 +11,8 @@ import com.zkyyo.www.serve.EmployeeServe;
 public class EmployeeDao {
     private static volatile EmployeeDao INSTANCE = null;
 
-    private EmployeeDao() {}
+    private EmployeeDao() {
+    }
 
     public static EmployeeDao getInstance() {
         if (INSTANCE == null) {
@@ -65,6 +66,7 @@ public class EmployeeDao {
 
         try {
             conn = DbConn.getConn();
+            conn.setAutoCommit(false);
             String sql = "INSERT INTO employee (user_id, user_pwd, user_name, dept_id mobile, salary, email, employee_date)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
@@ -76,13 +78,26 @@ public class EmployeeDao {
             pstmt.setDouble(6, newEp.geteSalary());
             pstmt.setString(7, newEp.geteEmail());
             pstmt.setDate(8, newEp.geteEmployDate());
+            pstmt.executeUpdate();
 
-            int efforts = pstmt.executeUpdate();
-            if (efforts > 0) {
-                isUpdated = true;
-            }
+            sql = "UPDATE department SET dept_population = dept_population + 1" +
+                    " WHERE dept_id = (SELECT dept_id FROM employee WHERE user_id=?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, newEp.geteUserId());
+            pstmt.executeUpdate();
+
+            conn.commit();
+            isUpdated = true;
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                    conn.setAutoCommit(true);
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             DbClose.close(conn, pstmt);
         }
@@ -92,24 +107,30 @@ public class EmployeeDao {
     public boolean deleteEmployee(int deletedUserId) {
         Connection conn = null;
         PreparedStatement pstmt = null;
+        boolean isDeleted = false;
 
         try {
             conn = DbConn.getConn();
+            conn.setAutoCommit(false);
             String sql = "DELETE FROM employee WHERE user_id=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, deletedUserId);
+            pstmt.executeUpdate();
 
-            int effects = pstmt.executeUpdate();
-            if (effects > 0) {
-                return true;
-            }
+            sql = "UPDATE department SET dept_population = dept_population - 1" +
+                    " WHERE dept_id = (SELECT dept_id FROM employee WHERE user_id=?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, deletedUserId);
+            pstmt.executeUpdate();
+
+            conn.commit();
+            isDeleted = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DbClose.close(conn, pstmt);
         }
-
-        return false;
+        return isDeleted;
     }
 
     public EmployeePo selectEmployeeByUserId(int searchedUserId) {
@@ -253,56 +274,71 @@ public class EmployeeDao {
         try {
             conn = DbConn.getConn();
             String sql = null;
-            int effects = 0;
             switch (type) {
                 case 1:
+                    conn.setAutoCommit(false);
+                    //原部门人数减1
+                    sql = "UPDATE department SET dept_population = dept_population - 1" +
+                            " WHERE dept_id = (SELECT dept_id FROM employee WHERE user_id=?)";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, updateUserId);
+                    pstmt.executeUpdate();
+
+                    //修改部门号
                     sql = "UPDATE employee SET dept_id=? WHERE user_id=?";
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setInt(1, newEp.geteDeptId());
                     pstmt.setInt(2, updateUserId);
-                    effects = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
+
+                    //新部门人数加1
+                    sql = "UPDATE department SET dept_population = dept_population + 1" +
+                            " WHERE dept_id = (SELECT dept_id FROM employee WHERE user_id=?)";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, updateUserId);
+                    pstmt.executeUpdate();
+
+                    conn.commit();
                     break;
                 case 2:
                     sql = "UPDATE employee SET mobile=? WHERE user_id=?";
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, newEp.geteMobile());
                     pstmt.setInt(2, updateUserId);
-                    effects = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
                     break;
                 case 3:
                     sql = "UPDATE employee SET salary=? WHERE user_id=?";
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setDouble(1, newEp.geteSalary());
                     pstmt.setInt(2, updateUserId);
-                    effects = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
                     break;
                 case 4:
                     sql = "UPDATE employee SET email=? WHERE user_id=?";
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, newEp.geteEmail());
                     pstmt.setInt(2, updateUserId);
-                    effects = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
                     break;
                 case 5:
                     sql = "UPDATE employee SET employee_date=? WHERE user_id=?";
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setDate(1, newEp.geteEmployDate());
                     pstmt.setInt(2, updateUserId);
-                    effects = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
                     break;
                 case 6:
                     sql = "UPDATE employee SET user_pwd=? WHERE user_id=?";
                     pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, newEp.getePassword());
                     pstmt.setInt(2, updateUserId);
-                    effects = pstmt.executeUpdate();
+                    pstmt.executeUpdate();
                     break;
                 default:
                     break;
             }
-            if (effects > 0) {
-                isUpdate = true;
-            }
+            isUpdate = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class EmployeeServe {
     private static volatile EmployeeServe INSTANCE = null;
 
-    private EmployeeServe() {}
+    private EmployeeServe() {
+    }
 
     public static EmployeeServe getInstance() {
         if (INSTANCE == null) {
@@ -78,6 +79,13 @@ public class EmployeeServe {
         EmployeePo foundEp = QueryUtil.queryEmployeeByUserId(updateUserId);
 
         if (foundEp != null) {
+            System.out.println("1. 修改部门号");
+            System.out.println("2. 修改手机号");
+            System.out.println("3. 修改薪水");
+            System.out.println("4. 修改邮箱");
+            System.out.println("5. 修改就职日期");
+            System.out.println("0. 返回");
+            System.out.println("请选择相应选项:");
             do {
                 int choice = ScannerUtil.scanNum();
                 if (choice == 0) {
@@ -86,9 +94,19 @@ public class EmployeeServe {
                     System.out.println("请输入修改后的信息:");
                     switch (choice) {
                         case 1:
-                            int newDepartmentId = ScannerUtil.scanNum();
-                            foundEp.seteDeptId(newDepartmentId);
-                            isUpdate = epd.updateEmployee(updateUserId, 1, foundEp);
+                            int newDepartmentId;
+                            do {
+                                newDepartmentId = ScannerUtil.scanNum();
+                                DepartmentDao dd = DepartmentDao.getInstance();
+                                DepartmentPo foundDept = dd.selectDepartmentByDeptId(newDepartmentId);
+                                if (foundDept == null) {
+                                    System.out.println("部门不存在,请重新输入");
+                                } else {
+                                    foundEp.seteDeptId(newDepartmentId);
+                                    isUpdate = epd.updateEmployee(updateUserId, 1, foundEp);
+                                    break;
+                                }
+                            } while (true);
                             break;
                         case 2:
                             String newMobile = ScannerUtil.scanString(false);

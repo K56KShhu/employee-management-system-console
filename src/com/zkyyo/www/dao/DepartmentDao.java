@@ -287,15 +287,29 @@ public class DepartmentDao {
 
         try {
             conn = DbConn.getConn();
+            //删除部门
             String sql = "DELETE FROM department WHERE dept_id=?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, deleteddeptId);
-            int effects = stmt.executeUpdate();
-            if (effects > 0) {
-                isDeleted = true;
-            }
+            stmt.executeUpdate();
+
+            //相应员工的部门号设为-1,表示待业
+            sql = "UPDATE employee SET dept_id = -1 WHERE dept_id=?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, deleteddeptId);
+            stmt.executeUpdate();
+
+            conn.commit();
+            isDeleted = true;
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             DbClose.close(conn, stmt);
         }

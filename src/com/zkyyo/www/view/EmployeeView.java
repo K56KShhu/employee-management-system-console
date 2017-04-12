@@ -52,7 +52,7 @@ public class EmployeeView {
         System.out.println("3. 模糊搜索 > 通过员工名字");
         System.out.println("-  --------------------");
         System.out.println("4. 显示所有员工");
-        System.out.println("5. 返回");
+        System.out.println("0. 返回");
         System.out.println("******************************");
         EmployeeServe epys = EmployeeServe.getInstance();
 

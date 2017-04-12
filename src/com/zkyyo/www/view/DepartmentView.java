@@ -12,7 +12,7 @@ public class DepartmentView {
         System.out.println("2. 修改部门");
         System.out.println("3. 增加部门");
         System.out.println("4. 删除部门");
-        System.out.println("5. 返回");
+        System.out.println("0. 返回");
         System.out.println("**************************");
         DepartmentServe ds = DepartmentServe.getInstance();
 
